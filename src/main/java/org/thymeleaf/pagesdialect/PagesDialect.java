@@ -14,14 +14,14 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
     public static final String PAGE_PARAMETER = "pageParameter";
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
-    public static final String I18N_ONE_RESULT = "i18n.oneResult";
-    public static final String I18N_RESULTS = "i18n.results";
-    public static final String I18N_PREVIOUS = "i18n.previous";
-    public static final String I18N_NEXT = "i18n.next";
-    public static final String I18N_PAGE = "i18n.page";
-    public static final String I18N_FIRST = "i18n.first";
-    public static final String I18N_LAST = "i18n.last";
-    public static final String I18N_NONE = "i18n.none";
+    public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";
+    public static final String I18N_RESULTS = "pagesdialect.results";
+    public static final String I18N_PREVIOUS = "pagesdialect.previous";
+    public static final String I18N_NEXT = "pagesdialect.next";
+    public static final String I18N_PAGE = "pagesdialect.page";
+    public static final String I18N_FIRST = "pagesdialect.first";
+    public static final String I18N_LAST = "pagesdialect.last";
+    public static final String I18N_NONE = "pagesdialect.none";
 
     private Map<String, String> properties = new HashMap<String, String>();
     
