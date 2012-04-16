@@ -76,7 +76,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
         String query = request.getQueryString();
-        String href = uri + "?" + query + (query != null ? "&" : "") + exportParam + "=true";
+        String href = uri + "?" + query + (query != null ? "&" : "") + exportParam + "=" + this.format;
         // Add link element
         Element anchor = new Element("a");
         anchor.setAttribute("class", exportLinkClass);
@@ -94,7 +94,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
     @Override
     protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-        if (request.getParameter(exportParam) != null) {
+        if (this.format.equals(request.getParameter(exportParam))) {
             // Get iteration collection
             String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
             if (!element.hasAttribute(iterationAttr)) {

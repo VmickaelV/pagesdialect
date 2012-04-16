@@ -13,6 +13,18 @@ public class SampleProduct {
     private Integer stock;
     private Integer price;
 
+    private final static List<SampleProduct> products;
+    
+    static {
+        SampleCategory[] categories = {new SampleCategory(101, "Apparels"),
+            new SampleCategory(102, "Electronics"), new SampleCategory(103, "Furniture"),
+            new SampleCategory(104, "Hardware"), new SampleCategory(105, "Media")};
+        products = new ArrayList<SampleProduct>();
+        for (int i = 1; i <= 500; i++) {
+            products.add(new SampleProduct("Sample product #" + i, categories[random(0, 4)], random(0, 50), random(100, 200)));
+        }
+    }
+    
     public SampleProduct() {
     }
 
@@ -64,13 +76,6 @@ public class SampleProduct {
     }
     
     public static List<SampleProduct> loadAllProducts() {
-        SampleCategory[] categories = {new SampleCategory(101, "Apparels"),
-            new SampleCategory(102, "Electronics"), new SampleCategory(103, "Furniture"),
-            new SampleCategory(104, "Hardware"), new SampleCategory(105, "Media")};
-        List<SampleProduct> products = new ArrayList<SampleProduct>();
-        for (int i = 1; i <= 500; i++) {
-            products.add(new SampleProduct("Sample product #" + i, categories[random(0, 4)], random(0, 50), random(100, 200)));
-        }
         return products;
     }
 }
