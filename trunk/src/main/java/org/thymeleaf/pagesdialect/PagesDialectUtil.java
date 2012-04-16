@@ -1,6 +1,10 @@
 package org.thymeleaf.pagesdialect;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.thymeleaf.Arguments;
@@ -80,4 +84,19 @@ public class PagesDialectUtil {
             throw new TemplateProcessingException("Error while getting sort field", ex);
         }
     }
+
+    public static List convertToList(Object iterable) {
+        List list;
+        if (iterable instanceof List) {
+            list = (List) iterable;
+        } else if (iterable instanceof Collection) {
+            list = new ArrayList((Collection) iterable);
+        } else if (iterable.getClass().isArray()) {
+            list = Arrays.asList(iterable);
+        } else {
+            throw new TemplateProcessingException("Iteration object not recognized");
+        }
+        return list;
+    }
 }
+

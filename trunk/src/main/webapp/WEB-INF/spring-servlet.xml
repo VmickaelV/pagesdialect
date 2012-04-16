@@ -29,6 +29,7 @@
                 <entry key="pagedListAttribute" value="pagedList" />
                 <entry key="sortParameter" value="sort" />
                 <entry key="sortTypeParameter" value="sortType" />
+                <entry key="exportParameter" value="export" />
                 
                 <entry key="pagesdialect.oneResult" value="search.listOne" />
                 <entry key="pagesdialect.results" value="search.list" />
@@ -38,6 +39,8 @@
                 <entry key="pagesdialect.next" value="next" />
                 <entry key="pagesdialect.last" value="last" />
                 <entry key="pagesdialect.none" value="search.none" />
+                <entry key="pagesdialect.exportPdf" value="pdf" />
+                <entry key="pagesdialect.exportExcel" value="excel" />
             </map>
         </property>
         -->

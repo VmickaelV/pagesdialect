@@ -227,17 +227,7 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         String listObject = iterationAttributeParams[1].trim();
         // Recover original list
         Object iterable = StandardExpressionProcessor.processExpression(arguments, listObject);
-        List list;
-        if (iterable instanceof List) {
-            list = (List) iterable;
-        } else if (iterable instanceof Collection) {
-            list = new ArrayList((Collection) iterable);
-        } else if (iterable.getClass().isArray()) {
-            list = Arrays.asList(iterable);
-        } else {
-            throw new TemplateProcessingException("Iteration object not recognized");
-        }
-        PagedListHolder pagedList = new PagedListHolder(list);
+        PagedListHolder pagedList = new PagedListHolder(PagesDialectUtil.convertToList(iterable));
         // Set current page
         pagedList.setPageSize(pageSize);
         IWebContext context = (IWebContext) arguments.getContext();

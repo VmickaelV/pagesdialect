@@ -17,6 +17,7 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
     public static final String SORT_PARAMETER = "sortParameter";
     public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
+    public static final String EXPORT_PARAMETER = "exportParameter";
     
     // i18n keys. Can be overriden by configuration.
     public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";
@@ -27,6 +28,8 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final String I18N_FIRST = "pagesdialect.first";
     public static final String I18N_LAST = "pagesdialect.last";
     public static final String I18N_NONE = "pagesdialect.none";
+    public static final String I18N_EXPORT_PDF = "pagesdialect.exportPdf";
+    public static final String I18N_EXPORT_EXCEL = "pagesdialect.exportExcel";
 
     private Map<String, String> properties = new HashMap<String, String>();
     
@@ -51,12 +54,25 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     @Override
     public Set<IProcessor> getProcessors() {
         Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
+        
         PaginateAttrProcessor paginateAttrProcessor = new PaginateAttrProcessor("paginate");
         paginateAttrProcessor.setDialect(this);
         attrProcessors.add(paginateAttrProcessor);
+        
         SortAttrProcessor sortAttrProcessor = new SortAttrProcessor("sort");
         sortAttrProcessor.setDialect(this);
         attrProcessors.add(sortAttrProcessor);
+        
+        ExportAttrProcessor exportPdfAttrProcessor = new ExportAttrProcessor("pdf");
+        exportPdfAttrProcessor.setDialect(this);
+        exportPdfAttrProcessor.setFormat(ExportFilter.PDF_FORMAT);
+        attrProcessors.add(exportPdfAttrProcessor);
+        
+        ExportAttrProcessor exportExcelAttrProcessor = new ExportAttrProcessor("excel");
+        exportExcelAttrProcessor.setDialect(this);
+        exportExcelAttrProcessor.setFormat(ExportFilter.EXCEL_FORMAT);
+        attrProcessors.add(exportExcelAttrProcessor);
+        
         attrProcessors.add(new SeparateAttrProcessor("separate"));
         return attrProcessors;
     }

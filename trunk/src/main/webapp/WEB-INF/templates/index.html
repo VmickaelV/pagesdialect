@@ -18,7 +18,10 @@
                 </tr>
             </thead>
             <tbody th:remove="all-but-first">
-                <tr th:each="product : ${products}" pages:paginate="5">
+                <tr th:each="product : ${products}"
+                        pages:paginate="5"
+                        pages:pdf="name, category.name, stock, formattedPrice"
+                        pages:excel="name, category.name, stock, price">
                     <td th:text="${product.name}">Chair</td>
                     <td th:text="${product.category.name}">Apparels</td>
                     <td th:text="${product.stock}">12</td>
@@ -45,6 +48,10 @@
             <span class="paginate-page">Page 2 of 100</span>
             <a href="#" class="paginate-next">Next</a>
             <a href="#" class="paginate-last">Last</a>
+        </div>
+        <div th:remove="all" class="export">
+            <a class="export-excel">Excel</a>
+            <a class="export-pdf">PDF</a>
         </div>
     </body>
 </html>
