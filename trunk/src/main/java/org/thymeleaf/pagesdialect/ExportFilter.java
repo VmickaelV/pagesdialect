@@ -28,6 +28,7 @@ public class ExportFilter implements Filter {
     public static final String EXPORT_LIST_ATTR = "org.thymeleaf.pagesdialect.exportListAttr"; // Cannot be overriden at the moment
     public static final String EXPORT_LIST_FORMAT = "org.thymeleaf.pagesdialect.exportListFormat"; // Cannot be overriden at the moment
     public static final String EXPORT_FIELDS = "org.thymeleaf.pagesdialect.exportFields"; // Cannot be overriden at the moment
+    public static final String EXPORT_HEADERS = "org.thymeleaf.pagesdialect.exportHeaders"; // Cannot be overriden at the moment
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -41,25 +42,29 @@ public class ExportFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) sResponse;
         if (request.getAttribute(EXPORT_LIST_ATTR) != null && !response.isCommitted()) {
             String format = (String) request.getAttribute(EXPORT_LIST_FORMAT);
-            String[] fields = ((String) request.getAttribute(EXPORT_FIELDS)).split(",");
+            List<String> fields = ((List<String>) request.getAttribute(EXPORT_FIELDS));
+            List<String> headers = ((List<String>) request.getAttribute(EXPORT_HEADERS));
             List list = (List) request.getAttribute(EXPORT_LIST_ATTR);
             response.reset(); // Remove previous response
             // FIXME: fill in report title or delete it
             // FIXME: fill in filename
             DynamicReport report = new DynamicReport(format, "Report title", "export", response);
-            ColumnBuilder[] columns = new ColumnBuilder[fields.length];
+            ColumnBuilder[] columns = new ColumnBuilder[fields.size()];
             // FIXME: list could be empty
             Object sampleObject = list.get(0);
-            for (int i = 0; i < fields.length; i++) {
-                String fieldPath = fields[i].trim();
+            for (int i = 0; i < fields.size(); i++) {
+                String fieldPath = fields.get(i).trim();
                 DRIDataType fieldType;
                 try {
                     fieldType = type.detectType(PagesDialectUtil.getProperty(sampleObject, fieldPath).getClass());
                 } catch (DRException ex) {
-                    throw new IllegalArgumentException("Type of field -" + fieldPath + "- unknown");
+                    throw new IllegalArgumentException("Type of field -" + fieldPath + "- unknown", ex);
                 }
-                // FIXME: fill in report headers or delete it
-                columns[i] = col.column("Column " + fieldPath, fieldPath, fieldType);
+                if (headers != null) {
+                    columns[i] = col.column(headers.get(i), fieldPath, fieldType);
+                } else {
+                    columns[i] = col.column(fieldPath, fieldType);
+                }
             }
             report.export(list, columns);
         }

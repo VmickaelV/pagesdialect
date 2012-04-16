@@ -9,6 +9,7 @@
     <body>
         <h1>Thymeleaf Pages Dialect Example</h1>
         <table>
+            <caption>Product list</caption>
             <thead>
                 <tr>
                     <th pages:sort="name">Product</th>
@@ -20,8 +21,8 @@
             <tbody th:remove="all-but-first">
                 <tr th:each="product : ${products}"
                         pages:paginate="5"
-                        pages:pdf="name, category.name, stock, formattedPrice"
-                        pages:excel="name, category.name, stock, price">
+                        pages:excel="name, category.name, stock, price"
+                        pages:pdf="name:name, category.name:category, stock:stock, formattedPrice:total">
                     <td th:text="${product.name}">Chair</td>
                     <td th:text="${product.category.name}">Apparels</td>
                     <td th:text="${product.stock}">12</td>
