@@ -121,10 +121,14 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
         String uri = request.getRequestURL().toString().split("\\?")[0];
         String query = request.getQueryString();
         // Remove previous parameters
-        query = query.replaceAll("&?" + sortParam + "=[^&]*", "");
-        query = query.replaceAll("&?" + sortTypeParam + "=[^&]*", "");
         if (query != null) {
+            query = query.replaceAll("&?" + sortParam + "=[^&]*", "");
+            query = query.replaceAll("&?" + sortTypeParam + "=[^&]*", "");
+        }
+        if (query != null && !query.isEmpty()) {
             query += "&";
+        } else {
+            query = "";
         }
         query += sortParam + "=" + field + "&" + sortTypeParam + "=" + (desc == null || desc ? "asc" : "desc");
         String href = uri + "?" + query;
