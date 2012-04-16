@@ -8,10 +8,11 @@ import org.thymeleaf.dialect.AbstractXHTMLEnabledDialect;
 import org.thymeleaf.processor.IProcessor;
 
 /**
- * Custom extension to Thymeleaf dialect with some pagination utilities.
+ * Custom Thymeleaf dialect with some pagination utilities.
  */
 public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
+    // Default values. Can be overriden by configuration.
     public static final String PAGE_PARAMETER = "pageParameter";
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
     public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";

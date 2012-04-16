@@ -16,31 +16,28 @@
 	<!-- User @Controller, @Service... annotations -->
     <context:component-scan base-package="org.thymeleaf.pagesdialect.examples" />
 	<!-- Message internalization -->
-    <!--
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="messages" />
-    </bean>
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
     </mvc:interceptors>
-    -->
     <!-- PagesDialect configuration -->
     <bean id="pagesDialect" class="org.thymeleaf.pagesdialect.PagesDialect">
+        <!--
         <property name="properties">
             <map>
-                <!--entry key="pageParameter" value="page" /-->
-                <!--entry key="pagedListAttribute" value="pagedList" /-->
-                <entry key="i18n.oneResult" value="search.listOne" />
-                <entry key="i18n.results" value="search.list" />
-                <entry key="i18n.first" value="first" />
-                <entry key="i18n.previous" value="previous" />
-                <entry key="i18n.page" value="page" />
-                <entry key="i18n.next" value="next" />
-                <entry key="i18n.last" value="last" />
-                <entry key="i18n.none" value="search.none" />
+                <entry key="pageParameter" value="page" />
+                <entry key="pagedListAttribute" value="pagedList" />
+                <entry key="pagesdialect.oneResult" value="search.listOne" />
+                <entry key="pagesdialect.results" value="search.list" />
+                <entry key="pagesdialect.first" value="first" />
+                <entry key="pagesdialect.previous" value="previous" />
+                <entry key="pagesdialect.page" value="page" />
+                <entry key="pagesdialect.next" value="next" />
+                <entry key="pagesdialect.last" value="last" />
+                <entry key="pagesdialect.none" value="search.none" />
             </map>
         </property>
+        -->
     </bean>
     <!-- Thymeleaf configuration -->
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
