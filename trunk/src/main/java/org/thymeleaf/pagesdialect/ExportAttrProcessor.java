@@ -13,6 +13,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
+import org.thymeleaf.standard.processor.attr.StandardTextAttrProcessor;
 
 /**
  * Thymeleaf processor that adds a link to export a Collection.
@@ -113,7 +114,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
             String listObject = iterationAttributeParams[1].trim();
             Object iterable = StandardExpressionProcessor.processExpression(arguments, listObject);
             // Store list information for filter
-            request.setAttribute(ExportFilter.EXPORT_LIST_ATTR, PagesDialectUtil.convertToList(iterable));
+            request.setAttribute(ExportFilter.EXPORT_LIST, PagesDialectUtil.convertToList(iterable));
             request.setAttribute(ExportFilter.EXPORT_LIST_FORMAT, this.format);
             List<String> fields = new ArrayList<String>();
             List<String> headers = new ArrayList<String>();
@@ -137,6 +138,15 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
             request.setAttribute(ExportFilter.EXPORT_FIELDS, fields);
             if (someHeader) {
                 request.setAttribute(ExportFilter.EXPORT_HEADERS, headers);
+            }
+            // Caption
+            Element container = PagesDialectUtil.getContainerElement(element);
+            if ("table".equals(container.getOriginalName())) {
+                Element firstChild = container.getElementChildren().get(0);
+                if ("caption".equals(firstChild.getOriginalName())) {
+                    Text text = (Text) firstChild.getFirstChild();
+                    request.setAttribute(ExportFilter.EXPORT_TITLE, text.getContent());
+                }
             }
         } else {
             // Add export link

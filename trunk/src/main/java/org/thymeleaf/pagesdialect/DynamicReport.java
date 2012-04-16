@@ -37,7 +37,10 @@ public class DynamicReport {
             StyleBuilder titleStyle = stl.style().setFontSize(10).bold();
             StyleBuilder cellStyle = stl.style().setBorder(stl.penThin()).setFontSize(8).setPadding(1);
             StyleBuilder headerStyle = stl.style().setBorder(stl.penThin()).setFontSize(8).bold().setPadding(1);
-            JasperReportBuilder report = report().setColumnStyle(cellStyle).setColumnTitleStyle(headerStyle).columns(columns).title(cmp.text(title).setStyle(titleStyle)).setDataSource(new JRBeanCollectionDataSource(items));
+            JasperReportBuilder report = report().setColumnStyle(cellStyle).setColumnTitleStyle(headerStyle).columns(columns).setDataSource(new JRBeanCollectionDataSource(items));
+            if (title != null) {
+                report = report.title(cmp.text(title).setStyle(titleStyle));
+            }
             String file = filename + "_" + PagesDialectUtil.now();
             if ("excel".equals(reportType)) {
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + file + ".xls\"");
