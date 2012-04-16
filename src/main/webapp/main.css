@@ -52,6 +52,7 @@ span.paginate-count {
 
 div.paginate {
     text-align: center;
+    margin-bottom: 0.4em;
 }
 
 a {
@@ -72,3 +73,14 @@ a.paginate-last:after { content: ' »'; font-weight: bolder; }
 
 a.sort-asc:after { content: ' ▲'; font-weight: bolder; }
 a.sort-desc:after { content: ' ▼'; font-weight: bolder; }
+
+a.export-pdf, a.export-excel {
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 24px;
+    margin-right: 1em;
+}
+
+/* Excel and PDF icons by http://saviourmachine.deviantart.com/ (License CC-by) */
+a.export-pdf { background-image: url('pdf.png'); }
+a.export-excel { background-image: url('excel.png'); }

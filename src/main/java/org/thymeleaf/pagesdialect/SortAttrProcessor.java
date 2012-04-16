@@ -1,6 +1,5 @@
 package org.thymeleaf.pagesdialect;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +32,7 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class SortAttrProcessor extends AbstractAttrProcessor {
 
-    public static final int ATTR_PRECEDENCE = PaginateAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before pages:paginate processor
+    public static final int ATTR_PRECEDENCE = ExportAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before pages:export processor
 
     private PagesDialect dialect;
 
