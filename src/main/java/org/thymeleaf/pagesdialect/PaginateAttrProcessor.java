@@ -33,13 +33,10 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
 
     public static final int ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
 
-    private static final String DEFAULT_PAGE_PARAMETER = "page";
-    private static final String DEFAULT_PAGED_LIST_ATTR = "pagedList";
-
     private PagesDialect dialect;
 
-    private String pageParam;
-    private String pagedListAttr;
+    private String pageParam = "page"; // Default value. Can be overriden by config.
+    private String pagedListAttr = "pagedList"; // Default value. Can be overriden by config.
 
     public PaginateAttrProcessor(IAttributeNameProcessorMatcher matcher) {
         super(matcher);
@@ -53,13 +50,9 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         this.dialect = dialect;
         if (dialect.getProperties().containsKey(PagesDialect.PAGED_LIST_ATTR)) {
             this.pagedListAttr = dialect.getProperties().get(PagesDialect.PAGED_LIST_ATTR);
-        } else {
-            this.pagedListAttr = DEFAULT_PAGED_LIST_ATTR;
         }
         if (dialect.getProperties().containsKey(PagesDialect.PAGE_PARAMETER)) {
             this.pageParam = dialect.getProperties().get(PagesDialect.PAGE_PARAMETER);
-        } else {
-            this.pageParam = DEFAULT_PAGE_PARAMETER;
         }
     }
 
@@ -240,8 +233,7 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         // Parse parameters
         String attributeValue = element.getAttributeValue(attributeName);
         int pageSize = Integer.parseInt(StandardExpressionProcessor.processExpression(arguments, attributeValue).toString());
-        // FIXME: use StandardEachAttrProcessor.ATTR_NAME and get prefix from arguments.getConfiguration()
-        String iterationAttr = "th:each";
+        String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME;
         if (!element.hasAttribute(iterationAttr)) {
             throw new TemplateProcessingException("Standard iteration attribute not found");
         }
