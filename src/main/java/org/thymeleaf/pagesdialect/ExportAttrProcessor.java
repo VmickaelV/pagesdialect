@@ -1,5 +1,7 @@
 package org.thymeleaf.pagesdialect;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
@@ -18,7 +20,14 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  * Example usage:
  * <pre>
  * {@code
- *    <div th:each="product : ${products}" pages:export="pdf">...</div>
+ *      <tr th:each="product : ${products}" pages:excel="name, category.name, stock, price">
+ * }
+ * </pre>
+ * 
+ * Example usage with i18n keys:
+ * <pre>
+ * {@code
+ *      <tr th:each="product : ${products}" pages:pdf="name:name, category.name:category, formattedPrice:total">
  * }
  * </pre>
  **/
@@ -76,7 +85,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
         String query = request.getQueryString();
-        String href = uri + "?" + query + (query != null ? "&" : "") + exportParam + "=" + this.format;
+        String href = uri + "?" + (query != null ? query + "&": "") + exportParam + "=" + this.format;
         // Add link element
         Element anchor = new Element("a");
         anchor.setAttribute("class", exportLinkClass);
@@ -103,14 +112,37 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
             String iterationAttributeParams[] = element.getAttributeValue(iterationAttr).split(":");
             String listObject = iterationAttributeParams[1].trim();
             Object iterable = StandardExpressionProcessor.processExpression(arguments, listObject);
-            // Store iteration collection for filter
+            // Store list information for filter
             request.setAttribute(ExportFilter.EXPORT_LIST_ATTR, PagesDialectUtil.convertToList(iterable));
             request.setAttribute(ExportFilter.EXPORT_LIST_FORMAT, this.format);
-            request.setAttribute(ExportFilter.EXPORT_FIELDS, element.getAttributeValue(attributeName));
+            List<String> fields = new ArrayList<String>();
+            List<String> headers = new ArrayList<String>();
+            boolean someHeader = false;
+            for (String part : element.getAttributeValue(attributeName).split(",")) {
+                if (part.contains(":")) {
+                    fields.add(part.split(":")[0].trim());
+                    String key = part.split(":")[1].trim();
+                    String header = getMessage(arguments, key, null);
+                    if (header.startsWith("??") && header.endsWith("??")) {
+                        // FIXME: do a stronger check for i18n existence
+                        header = key;
+                    }
+                    headers.add(header);
+                    someHeader = true;
+                } else {
+                    fields.add(part.trim());
+                    headers.add("");
+                }
+            }
+            request.setAttribute(ExportFilter.EXPORT_FIELDS, fields);
+            if (someHeader) {
+                request.setAttribute(ExportFilter.EXPORT_HEADERS, headers);
+            }
+        } else {
+            // Add export link
+            Element container = PagesDialectUtil.getContainerElement(element);
+            addExportLink(arguments, container);
         }
-        // Add export link
-        Element container = PagesDialectUtil.getContainerElement(element);
-        addExportLink(arguments, container);
         // Housekeeping
         element.removeAttribute(attributeName);
         return ProcessorResult.OK;
