@@ -25,10 +25,11 @@ public class ExportFilter implements Filter {
     public static final String PDF_FORMAT = "pdf";
     public static final String EXCEL_FORMAT = "excel";
     
-    public static final String EXPORT_LIST_ATTR = "org.thymeleaf.pagesdialect.exportListAttr"; // Cannot be overriden at the moment
+    public static final String EXPORT_LIST = "org.thymeleaf.pagesdialect.exportListAttr"; // Cannot be overriden at the moment
     public static final String EXPORT_LIST_FORMAT = "org.thymeleaf.pagesdialect.exportListFormat"; // Cannot be overriden at the moment
     public static final String EXPORT_FIELDS = "org.thymeleaf.pagesdialect.exportFields"; // Cannot be overriden at the moment
     public static final String EXPORT_HEADERS = "org.thymeleaf.pagesdialect.exportHeaders"; // Cannot be overriden at the moment
+    public static final String EXPORT_TITLE = "org.thymeleaf.pagesdialect.exportTitle"; // Cannot be overriden at the moment
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -40,15 +41,15 @@ public class ExportFilter implements Filter {
         chain.doFilter(sRequest, sResponse); // FIXME: figure out some way to avoid the whole template processing
         HttpServletRequest request = (HttpServletRequest) sRequest;
         HttpServletResponse response = (HttpServletResponse) sResponse;
-        if (request.getAttribute(EXPORT_LIST_ATTR) != null && !response.isCommitted()) {
+        if (request.getAttribute(EXPORT_LIST) != null && !response.isCommitted()) {
             String format = (String) request.getAttribute(EXPORT_LIST_FORMAT);
             List<String> fields = ((List<String>) request.getAttribute(EXPORT_FIELDS));
             List<String> headers = ((List<String>) request.getAttribute(EXPORT_HEADERS));
-            List list = (List) request.getAttribute(EXPORT_LIST_ATTR);
+            List list = (List) request.getAttribute(EXPORT_LIST);
+            String title = (String) request.getAttribute(EXPORT_TITLE);
             response.reset(); // Remove previous response
-            // FIXME: fill in report title or delete it
             // FIXME: fill in filename
-            DynamicReport report = new DynamicReport(format, "Report title", "export", response);
+            DynamicReport report = new DynamicReport(format, title, "export", response);
             ColumnBuilder[] columns = new ColumnBuilder[fields.size()];
             // FIXME: list could be empty
             Object sampleObject = list.get(0);
