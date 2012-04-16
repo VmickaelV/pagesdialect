@@ -1,9 +1,11 @@
 package org.thymeleaf.pagesdialect;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -98,5 +100,9 @@ public class PagesDialectUtil {
         }
         return list;
     }
-}
 
+    /** Return current date in computer format. */
+    public static String now() {
+        return new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+    }
+}

@@ -11,6 +11,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
+import net.sf.dynamicreports.report.exception.DRException;
 
 /**
  * Filter for pages:export processor.
@@ -32,19 +36,32 @@ public class ExportFilter implements Filter {
     @Override
     public void doFilter(ServletRequest sRequest, ServletResponse sResponse, FilterChain chain)
             throws IOException, ServletException {
-        chain.doFilter(sRequest, sResponse);
+        chain.doFilter(sRequest, sResponse); // FIXME: figure out some way to avoid the whole template processing
         HttpServletRequest request = (HttpServletRequest) sRequest;
         HttpServletResponse response = (HttpServletResponse) sResponse;
         if (request.getAttribute(EXPORT_LIST_ATTR) != null && !response.isCommitted()) {
             String format = (String) request.getAttribute(EXPORT_LIST_FORMAT);
-            String fields = (String) request.getAttribute(EXPORT_FIELDS);
-            response.reset();
-            response.setContentType("text/plain");
+            String[] fields = ((String) request.getAttribute(EXPORT_FIELDS)).split(",");
             List list = (List) request.getAttribute(EXPORT_LIST_ATTR);
-            response.getOutputStream().print("Formato " + format + "\n");
-            response.getOutputStream().print("Campos " + fields + "\n");
-            response.getOutputStream().print(list.toString());
-            response.flushBuffer();
+            response.reset(); // Remove previous response
+            // FIXME: fill in report title or delete it
+            // FIXME: fill in filename
+            DynamicReport report = new DynamicReport(format, "Report title", "export", response);
+            ColumnBuilder[] columns = new ColumnBuilder[fields.length];
+            // FIXME: list could be empty
+            Object sampleObject = list.get(0);
+            for (int i = 0; i < fields.length; i++) {
+                String fieldPath = fields[i].trim();
+                DRIDataType fieldType;
+                try {
+                    fieldType = type.detectType(PagesDialectUtil.getProperty(sampleObject, fieldPath).getClass());
+                } catch (DRException ex) {
+                    throw new IllegalArgumentException("Type of field -" + fieldPath + "- unknown");
+                }
+                // FIXME: fill in report headers or delete it
+                columns[i] = col.column("Column " + fieldPath, fieldPath, fieldType);
+            }
+            report.export(list, columns);
         }
     }
 
