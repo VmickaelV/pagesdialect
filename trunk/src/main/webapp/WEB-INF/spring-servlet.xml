@@ -27,6 +27,9 @@
             <map>
                 <entry key="pageParameter" value="page" />
                 <entry key="pagedListAttribute" value="pagedList" />
+                <entry key="sortParameter" value="sort" />
+                <entry key="sortTypeParameter" value="sortType" />
+                
                 <entry key="pagesdialect.oneResult" value="search.listOne" />
                 <entry key="pagesdialect.results" value="search.list" />
                 <entry key="pagesdialect.first" value="first" />

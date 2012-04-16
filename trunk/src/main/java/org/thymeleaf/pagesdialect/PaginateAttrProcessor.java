@@ -18,14 +18,14 @@ import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
- * Thymeleaf processor that modifies a th:if to allow pagination.
+ * Thymeleaf processor that modifies a th:each to allow pagination.
  * Attribute value is page size.
  * It generates page navigation links (previous, next...) and number of results.
  * 
  * Example usage:
  * <pre>
  * {@code
- *    <div th:each="product : ${products}" ata:paginate="10">...</div>
+ *    <div th:each="product : ${products}" pages:paginate="10">...</div>
  * }
  * </pre>
  **/
@@ -62,29 +62,13 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
     }
 
     /**
-     * Return the container element for the paged list.
-     * If the iteration element is a tr, return the parent table.
-     * If the iteration element is a list item, return the list element.
-     * Else, use the element itself.
-     */
-    private Element getContainerElement(Element element) {
-        if ("tr".equals(element.getOriginalName())) {
-            Element aux = (Element) element.getParent();
-            while (!"table".equals(aux.getOriginalName()) && aux.getParent() != null) {
-                aux = (Element) aux.getParent();
-            }
-            return aux;
-        } else if ("li".equals(element.getOriginalName())) {
-            return (Element) element.getParent();
-        } else {
-            return element;
-        }
-    }
-
-    /**
-     * Adds a text with the number of results after the container element.
-     * Example:
-     *     Showing 10 - 20 of 58 Results
+     * Adds a text with the number of results after the container element, like
+     * 
+     * <pre>
+     * {@code
+     *    <span class="paginate-count">Showing 10 - 20 of 58 Results</span>
+     * }
+     * </pre>
      */
     private void addResultCount(Arguments arguments, Element container, PagedListHolder pagedList) {
         Element resultCount = new Element("span");
@@ -129,6 +113,7 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
     /**
      * Returns the page URL with the "page" parameter added or modified.
      */
+    // FIXME: unit test URL construction
     private String getPageUrl(Arguments arguments, int pageNumber) {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
@@ -227,13 +212,13 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         }
         container.getParent().insertAfter(container, div);
     }
-
+    
     @Override
     protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
         // Parse parameters
         String attributeValue = element.getAttributeValue(attributeName);
         int pageSize = Integer.parseInt(StandardExpressionProcessor.processExpression(arguments, attributeValue).toString());
-        String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME;
+        String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
         if (!element.hasAttribute(iterationAttr)) {
             throw new TemplateProcessingException("Standard iteration attribute not found");
         }
@@ -263,7 +248,7 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         context.getRequestAttributes().put(pagedListAttr, pagedList.getPageList());
         element.setAttribute(iterationAttr, itemObject + " : ${#ctx.requestAttributes." + pagedListAttr + "}");
         // Add navigation links
-        Element container = getContainerElement(element);
+        Element container = PagesDialectUtil.getContainerElement(element);
         if (pagedList.getPageCount() > 1) {
             addNavigationLinks(arguments, container, pagedList);
         }

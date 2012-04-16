@@ -11,10 +11,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Stock</th>
-                    <th>Price</th>
+                    <th pages:sort="name">Product</th>
+                    <th pages:sort="category.name">Category</th>
+                    <th pages:sort="stock">Stock</th>
+                    <th pages:sort="price">Price</th>
                 </tr>
             </thead>
             <tbody th:remove="all-but-first">

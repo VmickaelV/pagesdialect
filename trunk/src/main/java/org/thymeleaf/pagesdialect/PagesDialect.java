@@ -12,9 +12,13 @@ import org.thymeleaf.processor.IProcessor;
  */
 public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
-    // Default values. Can be overriden by configuration.
+    // Configuration attributes to override default parameters.
     public static final String PAGE_PARAMETER = "pageParameter";
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
+    public static final String SORT_PARAMETER = "sortParameter";
+    public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
+    
+    // i18n keys. Can be overriden by configuration.
     public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";
     public static final String I18N_RESULTS = "pagesdialect.results";
     public static final String I18N_PREVIOUS = "pagesdialect.previous";
@@ -26,15 +30,6 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
     private Map<String, String> properties = new HashMap<String, String>();
     
-    private final Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
-    
-    public PagesDialect() {
-        PaginateAttrProcessor paginateAttrProcessor = new PaginateAttrProcessor("paginate");
-        paginateAttrProcessor.setDialect(this);
-        attrProcessors.add(paginateAttrProcessor);
-        attrProcessors.add(new SeparateAttrProcessor("separate"));
-    }
-
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
@@ -55,6 +50,14 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
     @Override
     public Set<IProcessor> getProcessors() {
+        Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
+        PaginateAttrProcessor paginateAttrProcessor = new PaginateAttrProcessor("paginate");
+        paginateAttrProcessor.setDialect(this);
+        attrProcessors.add(paginateAttrProcessor);
+        SortAttrProcessor sortAttrProcessor = new SortAttrProcessor("sort");
+        sortAttrProcessor.setDialect(this);
+        attrProcessors.add(sortAttrProcessor);
+        attrProcessors.add(new SeparateAttrProcessor("separate"));
         return attrProcessors;
     }
 }
