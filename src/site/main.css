@@ -86,3 +86,7 @@ a.export-pdf, a.export-excel {
 /* Excel and PDF icons by http://saviourmachine.deviantart.com/ (License CC-by) */
 a.export-pdf { background-image: url('pdf.png'); }
 a.export-excel { background-image: url('excel.png'); }
+
+p.banner {
+    text-align: center;
+}
