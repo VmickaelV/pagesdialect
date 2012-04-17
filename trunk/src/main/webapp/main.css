@@ -18,6 +18,12 @@ table {
     width: 100%;
 }
 
+caption {
+    font-weight: bold;
+    font-size: 1.4em;
+    margin-bottom: 0.2em;
+}
+
 thead {
     background-color: #5c7a1f;
     font-weight: bold;
