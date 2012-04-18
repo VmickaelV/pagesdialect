@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PagesDialect for Thymeleaf</title>
+        <link rel="stylesheet" href="main.css" />
+    </head>
+    <body>
+        <h1>PagesDialect for Thymeleaf</h1>
+        <p>
+            PagesDialect is a custom dialect for the <a href="http://www.thymeleaf.org">Thymeleaf template engine</a>.
+            It provides some Collection processing utilities, like pagination, sorting or exporting.
+        </p>
+        <p class="banner">
+            <img src="pagesdialect.png" alt="Demostration of PagesDialect transformation" />
+        </p>
+        <p>
+            <b>Note:</b> these utilities work with the full Collection object in memory. This could be not  
+            a good idea if you have a table with thousands of rows, but it is pretty nice for a
+            bunch of simple applications.
+        </p>
+        <h2>Dialect processors</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Processor</th>
+                    <th>Parameters</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>pages:paginate</td>
+                    <td>Results per page (could be an expression)</td>
+                    <td>
+                        Transform th:each iteration to add pagination. <br />
+                        It generates page navigation links (first, previous, next, last) and show the
+                        current page, total number of pages and total number of results.
+                    </td>
+                </tr>
+                <tr>
+                    <td>pages:sort</td>
+                    <td>Field to sort by. Could be a dot expression, as "category.name"</td>
+                    <td>
+                        Add sort links to a table headers.
+                    </td>
+                </tr>
+                <tr>
+                    <td>pages:separate</td>
+                    <td>Results among separators (could be an expression)</td>
+                    <td>
+                        Insert a separator tag after n iterations.
+                    </td>
+                </tr>
+                <tr>
+                    <td>pages:pdf</td>
+                    <td>Fields to export, separated by commas. Could be dot expressions, as "category.name"</td>
+                    <td>
+                        Export iteration list in PDF format.
+                    </td>
+                </tr>
+                <tr>
+                    <td>pages:excel</td>
+                    <td>
+                        Fields to export, separated by commas. Could be dot expressions, as "category.name". <br />
+                        Also supports header labels appending to a field a colon (":") and a i18n key.
+                    </td>
+                    <td>
+                        Export iteration list in XLS format.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
