@@ -58,6 +58,7 @@ public class PagesDialectUtil {
      * @param propertyPath using dot notation
      * @return null if any field in path is null
      */
+    // FIXME: use ONGL or SPeL to get properties
     public static Object getProperty(Object obj, String propertyPath) {
         if (obj == null) {
             return null;
@@ -101,8 +102,28 @@ public class PagesDialectUtil {
         return list;
     }
 
-    /** Return current date in computer format. */
+    /** 
+     * Return current date in computer format.
+     */
     public static String now() {
         return new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+    }
+
+    /** 
+     * Simplifies a String removing all non alphanumeric data and replace spaces by underscores.
+     */
+    public static String simplifyString(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (Character ch : str.toCharArray()) {
+            if (Character.isAlphabetic(ch) || Character.isDigit(ch)) {
+                sb.append(ch);
+            } else if (ch == ' ') {
+                sb.append("_");
+            }
+        }
+        if (sb.length() == 0) {
+            sb.append("_");
+        }
+        return sb.toString();
     }
 }

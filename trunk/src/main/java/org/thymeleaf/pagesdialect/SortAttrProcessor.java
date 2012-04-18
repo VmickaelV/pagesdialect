@@ -32,8 +32,6 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class SortAttrProcessor extends AbstractAttrProcessor {
 
-    public static final int ATTR_PRECEDENCE = ExportAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before pages:export processor
-
     private PagesDialect dialect;
 
     private String sortParam = "sort"; // Default value. Can be overriden by config.
@@ -59,7 +57,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
 
     @Override
     public int getPrecedence() {
-        return ATTR_PRECEDENCE;
+        return PagesDialect.SORT_ATTR_PRECEDENCE;
     }
     
     /**
@@ -113,7 +111,9 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
         };
     }
 
-    // FIXME: unit test URL construction
+    /**
+     * Add a sort link to provided element.
+     */
     private void addSortLink(Arguments arguments, Element element, String attributeName, String field, Boolean desc) {
         // Build URL
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();

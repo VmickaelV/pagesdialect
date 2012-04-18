@@ -6,18 +6,26 @@ import java.util.Map;
 import java.util.Set;
 import org.thymeleaf.dialect.AbstractXHTMLEnabledDialect;
 import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
  * Custom Thymeleaf dialect with some pagination utilities.
  */
 public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
+    // Processor precedences for this dialect
+    public static final int SEPARATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:each processor
+    public static final int PAGINATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
+    public static final int EXPORT_ATTR_PRECEDENCE = PAGINATE_ATTR_PRECEDENCE - 1; // Run before pages:paginate processor and after pages:sort processor
+    public static final int SORT_ATTR_PRECEDENCE = EXPORT_ATTR_PRECEDENCE - 1; // Need to be run before pages:export processor
+    
     // Configuration attributes to override default parameters.
     public static final String PAGE_PARAMETER = "pageParameter";
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
     public static final String SORT_PARAMETER = "sortParameter";
     public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
     public static final String EXPORT_PARAMETER = "exportParameter";
+    public static final String EXPORT_DIV_ID = "exportDivId";
     
     // i18n keys. Can be overriden by configuration.
     public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";
@@ -54,25 +62,25 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     @Override
     public Set<IProcessor> getProcessors() {
         Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
-        
+        // pages:paginate
         PaginateAttrProcessor paginateAttrProcessor = new PaginateAttrProcessor("paginate");
         paginateAttrProcessor.setDialect(this);
         attrProcessors.add(paginateAttrProcessor);
-        
+        // pages:sort
         SortAttrProcessor sortAttrProcessor = new SortAttrProcessor("sort");
         sortAttrProcessor.setDialect(this);
         attrProcessors.add(sortAttrProcessor);
-        
+        // pages:pdf
         ExportAttrProcessor exportPdfAttrProcessor = new ExportAttrProcessor("pdf");
         exportPdfAttrProcessor.setDialect(this);
         exportPdfAttrProcessor.setFormat(ExportFilter.PDF_FORMAT);
         attrProcessors.add(exportPdfAttrProcessor);
-        
+        // pages:excel
         ExportAttrProcessor exportExcelAttrProcessor = new ExportAttrProcessor("excel");
         exportExcelAttrProcessor.setDialect(this);
         exportExcelAttrProcessor.setFormat(ExportFilter.EXCEL_FORMAT);
         attrProcessors.add(exportExcelAttrProcessor);
-        
+        // pages:separate
         attrProcessors.add(new SeparateAttrProcessor("separate"));
         return attrProcessors;
     }

@@ -7,7 +7,6 @@ import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
-import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
  * Inside a th:each iteration, add a
@@ -23,8 +22,6 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class SeparateAttrProcessor extends AbstractAttrProcessor {
 
-    public static final int ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:each processor
-
     public SeparateAttrProcessor(IAttributeNameProcessorMatcher matcher) {
         super(matcher);
     }
@@ -35,7 +32,7 @@ public class SeparateAttrProcessor extends AbstractAttrProcessor {
 
     @Override
     public int getPrecedence() {
-        return ATTR_PRECEDENCE;
+        return PagesDialect.SEPARATE_ATTR_PRECEDENCE;
     }
     
     @Override

@@ -56,7 +56,8 @@ span.paginate-count {
     text-align:center;
 }
 
-div.paginate {
+div.paginate, span.paginate-no-result {
+    display: block;
     background-color: #EEEEEE;
     padding: 0.2em;
     text-align: center;
