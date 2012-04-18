@@ -48,10 +48,12 @@ public class ExportFilter implements Filter {
             List list = (List) request.getAttribute(EXPORT_LIST);
             String title = (String) request.getAttribute(EXPORT_TITLE);
             response.reset(); // Remove previous response
-            // FIXME: fill in filename
-            DynamicReport report = new DynamicReport(format, title, "export", response);
+            String filename = title != null ? PagesDialectUtil.simplifyString(title) : "export";
+            DynamicReport report = new DynamicReport(format, title, filename, response);
             ColumnBuilder[] columns = new ColumnBuilder[fields.size()];
-            // FIXME: list could be empty
+            if (list == null || list.isEmpty()) {
+                throw new IllegalArgumentException("Export list is empty");
+            }
             Object sampleObject = list.get(0);
             for (int i = 0; i < fields.size(); i++) {
                 String fieldPath = fields.get(i).trim();

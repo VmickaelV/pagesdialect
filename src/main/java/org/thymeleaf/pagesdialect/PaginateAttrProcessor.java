@@ -1,9 +1,5 @@
 package org.thymeleaf.pagesdialect;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.support.PagedListHolder;
 import org.thymeleaf.Arguments;
@@ -31,8 +27,6 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class PaginateAttrProcessor extends AbstractAttrProcessor {
 
-    public static final int ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
-
     private PagesDialect dialect;
 
     private String pageParam = "page"; // Default value. Can be overriden by config.
@@ -58,7 +52,7 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
 
     @Override
     public int getPrecedence() {
-        return ATTR_PRECEDENCE;
+        return PagesDialect.PAGINATE_ATTR_PRECEDENCE;
     }
 
     /**
@@ -113,7 +107,6 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
     /**
      * Returns the page URL with the "page" parameter added or modified.
      */
-    // FIXME: unit test URL construction
     private String getPageUrl(Arguments arguments, int pageNumber) {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
