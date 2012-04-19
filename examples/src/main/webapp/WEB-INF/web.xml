@@ -13,7 +13,7 @@
     <!-- PagesDialect export filter -->
     <filter>
         <filter-name>exportFilter</filter-name>
-        <filter-class>org.thymeleaf.pagesdialect.ExportFilter</filter-class>
+        <filter-class>net.sourceforge.pagesdialect.ExportFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>exportFilter</filter-name>

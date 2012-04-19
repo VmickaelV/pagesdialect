@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect.examples;
+package net.sourceforge.pagesdialect.examples;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
