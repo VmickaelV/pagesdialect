@@ -101,7 +101,6 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         }
         anchor.addChild(new Text(text));
         // Add or retrieve <div> container
-        System.out.println(exportDivId);
         DOMSelector selector = new DOMSelector("//div[@id=\"" + exportDivId + "\"]");
         List<Node> divs = selector.select((List) container.getParent().getElementChildren());
         Element div;

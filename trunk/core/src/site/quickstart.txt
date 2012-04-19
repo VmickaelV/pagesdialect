@@ -1,0 +1,49 @@
+
+If you haven't got it, add Sonatype Snapshot repository to your pom.xml:
+
+    <repositories>
+        ...
+        <repository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        ...
+    </repositories>
+
+Add the dependency to your pom.xml:
+
+    <dependencies>
+        ...
+        <dependency>
+            <groupId>net.sourceforge.pagesdialect</groupId>
+            <artifactId>pagesdialect-core</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        ...
+    </dependencies>
+
+Add PagesDialect to your Thymeleaf configuration at the Spring configuration file:
+
+    <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        <property name="dialects">
+            <set>
+                <bean class="org.thymeleaf.spring3.dialect.SpringStandardDialect" />
+                <bean class="net.sourceforge.pagesdialect.PagesDialect" />
+            </set>
+        </property>
+    </bean>
+
+If you want to use export features, and you don't use a Servlet 3.0 capable container, add to your web.xml:
+
+    <filter>
+        <filter-name>exportFilter</filter-name>
+        <filter-class>net.sourceforge.pagesdialect.ExportFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>exportFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+

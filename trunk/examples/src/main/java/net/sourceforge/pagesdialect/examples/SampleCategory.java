@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect.examples;
+package net.sourceforge.pagesdialect.examples;
 
 /**
  * Category representation for examples.
