@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.support.PagedListHolder;

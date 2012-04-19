@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import java.util.ArrayList;
 import java.util.List;

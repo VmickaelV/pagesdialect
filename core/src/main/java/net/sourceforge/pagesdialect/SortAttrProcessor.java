@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import java.util.Collections;
 import java.util.Comparator;

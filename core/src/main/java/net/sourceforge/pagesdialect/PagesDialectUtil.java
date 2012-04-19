@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
