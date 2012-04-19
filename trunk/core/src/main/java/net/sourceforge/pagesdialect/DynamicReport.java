@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import java.io.IOException;

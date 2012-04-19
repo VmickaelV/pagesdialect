@@ -1,4 +1,4 @@
-package org.thymeleaf.pagesdialect;
+package net.sourceforge.pagesdialect;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
