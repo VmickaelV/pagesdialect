@@ -15,6 +15,7 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
+import org.thymeleaf.util.MessageResolutionUtils;
 
 /**
  * Thymeleaf processor that adds a link to export a Collection.
@@ -138,10 +139,8 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
                     if (part.contains(":")) {
                         fields.add(part.split(":")[0].trim());
                         String key = part.split(":")[1].trim();
-                        String header = getMessage(arguments, key, null);
-                        if (header.startsWith("??") && header.endsWith("??")) {
-                            // FIXME: do a stronger check for i18n existence
-                            // Feature requested: https://sourceforge.net/tracker/?func=detail&aid=3519058&group_id=509826&atid=2072662
+                        String header = MessageResolutionUtils.resolveMessageForTemplate(arguments, key, null, false);
+                        if (header == null) {
                             header = key;
                         }
                         headers.add(header);
