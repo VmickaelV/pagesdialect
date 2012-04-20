@@ -35,7 +35,8 @@ Add PagesDialect to your Thymeleaf configuration at the Spring configuration fil
         </property>
     </bean>
 
-If you want to use export features, and you don't use a Servlet 3.0 capable container, add to your web.xml:
+[Optional] If you want to use export features, and you don't use a Servlet 3.0 capable container or you have the
+attribute metadata-complete="true" in your web-app element, add to your web.xml:
 
     <filter>
         <filter-name>exportFilter</filter-name>
