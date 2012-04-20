@@ -2,6 +2,7 @@ package net.sourceforge.pagesdialect;
 
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,7 +20,7 @@ import net.sf.dynamicreports.report.exception.DRException;
 /**
  * Filter for pages:export processor.
  */
-@WebFilter(filterName = "exportFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "exportFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class ExportFilter implements Filter {
     
     public static final String PDF_FORMAT = "pdf";
