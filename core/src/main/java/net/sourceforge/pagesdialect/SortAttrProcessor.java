@@ -63,7 +63,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
     /**
      * Returns the list iteration for the th:each
      */
-    private List getIterableCollection(Arguments arguments, Element element) {
+    private List getIterableList(Arguments arguments, Element element) {
         Element table = PagesDialectUtil.getContainerElement(element);
         String iterationAttrName = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
         String iterationAttrValue = null;
@@ -84,11 +84,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
         }
         String listExpression = iterationAttrValue.split(":")[1].trim();
         Object iterable = StandardExpressionProcessor.processExpression(arguments, listExpression);
-        if (iterable instanceof List) {
-            return (List) iterable;
-        } else {
-            throw new TemplateProcessingException("Iteration object is not a list");
-        }
+        return PagesDialectUtil.convertToList(iterable);
     }
 
     /**
@@ -164,7 +160,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                 if (context.getRequestParameters().containsKey(this.sortTypeParam)) {
                     desc = "desc".equals(context.getRequestParameters().get(this.sortTypeParam)[0]);
                 }
-                List iterable = getIterableCollection(arguments, element);
+                List iterable = getIterableList(arguments, element);
                 Collections.sort(iterable, getFieldComparator(sortField, desc));
             }
         }
