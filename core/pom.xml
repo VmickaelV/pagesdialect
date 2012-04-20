@@ -19,9 +19,9 @@
     </licenses>
 
     <scm>
-        <url>svn://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta1</url>
-        <connection>scm:svn:svn://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta1</connection>
-        <developerConnection>scm:svn:svn://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta1</developerConnection>
+        <url>https://svn.code.sf.net/p/pagesdialect/code/trunk/core</url>
+        <connection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/trunk/core</connection>
+        <developerConnection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/trunk/core</developerConnection>
     </scm>
 
     <developers>
