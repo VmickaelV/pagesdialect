@@ -53,7 +53,10 @@
                 </tr>
                 <tr>
                     <td>pages:pdf</td>
-                    <td>Fields to export, separated by commas. Could be dot expressions, as "category.name"</td>
+                    <td>
+                        Fields to export, separated by commas. Could be dot expressions, as "category.name". <br />
+                        Also supports header labels appending to a field a colon (":") and a i18n key.
+                    </td>
                     <td>
                         Export iteration list in PDF format.
                     </td>
@@ -70,7 +73,15 @@
                 </tr>
             </tbody>
         </table>
+
         <h2>Installation and configuration</h2>
         <a href="quickstart.html">Quick start for Maven + Spring users</a>
+
+        <h2>Demo</h2>
+        If you want to see PagesDialect in action, you could download
+        <a href="https://sourceforge.net/projects/pagesdialect/files/">pagesdialect.war</a> demo application and deploy it to a Servlet 3.0 container.
+        
+        <h2>Support</h2>
+        Use <a href="https://sourceforge.net/p/pagesdialect/discussion/">sourceforge forum</a> to post any question or to report any issue.
     </body>
 </html>
