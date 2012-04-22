@@ -40,7 +40,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <thymeleaf.version>2.0.5</thymeleaf.version>
+        <thymeleaf.version>2.0.6</thymeleaf.version>
     </properties>
 
     <dependencies>
