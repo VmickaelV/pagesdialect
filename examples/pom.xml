@@ -36,20 +36,10 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <thymeleaf.version>2.0.5</thymeleaf.version>
+        <thymeleaf.version>2.0.6</thymeleaf.version>
         <springframework.version>3.1.1.RELEASE</springframework.version>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
     </properties>
-
-    <!--
-    <repositories>
-        <repository>
-            <id>sonatype-snapshots</id>
-            <name>Sonatype snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
-    -->
 
     <dependencies>
         <dependency>
@@ -59,7 +49,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>net.sourceforge.pagesdialect</groupId>
             <artifactId>pagesdialect-core</artifactId>
             <version>${project.version}</version>
         </dependency>
