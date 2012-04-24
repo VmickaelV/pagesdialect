@@ -115,7 +115,7 @@ public class PagesDialectUtil {
     public static String simplifyString(String str) {
         StringBuilder sb = new StringBuilder();
         for (Character ch : str.toCharArray()) {
-            if (Character.isAlphabetic(ch) || Character.isDigit(ch)) {
+            if (Character.isLetterOrDigit(ch)) {
                 sb.append(ch);
             } else if (ch == ' ') {
                 sb.append("_");

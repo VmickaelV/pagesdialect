@@ -120,7 +120,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
             query = query.replaceAll("&?" + sortParam + "=[^&]*", "");
             query = query.replaceAll("&?" + sortTypeParam + "=[^&]*", "");
         }
-        if (query != null && !query.isEmpty()) {
+        if (query != null && !"".equals(query)) {
             query += "&";
         } else {
             query = "";
