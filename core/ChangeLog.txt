@@ -1,6 +1,7 @@
 1.0.0-beta2
 ===========
 - Compatibility with Java 5.
+- Javadocs.
 
 1.0.0-beta1
 ===========
