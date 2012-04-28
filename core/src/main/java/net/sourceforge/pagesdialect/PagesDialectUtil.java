@@ -21,6 +21,9 @@ import org.thymeleaf.standard.StandardDialect;
  */
 public class PagesDialectUtil {
     
+    /**
+     * Look up StandardDialect prefix, usually "th".
+     */
     public static String getStandardDialectPrefix(Arguments arguments) {
         Map<String, IDialect> dialectMap = arguments.getConfiguration().getDialects();
         for (Entry<String, IDialect> dialectEntry : dialectMap.entrySet()) {
@@ -36,7 +39,7 @@ public class PagesDialectUtil {
      * Return the container element for some elements.
      * If the iteration element is a tr, td or th, return the parent table.
      * If the iteration element is a list item, return the list element.
-     * Else, use the element itself.
+     * Else, return the element itself.
      */
     public static Element getContainerElement(Element element) {
         String name = element.getOriginalName();
@@ -55,8 +58,8 @@ public class PagesDialectUtil {
 
     /**
      * Return a property from an object via reflection.
-     * @param propertyPath using dot notation
-     * @return null if any field in path is null
+     * @param propertyPath using dot notation, as in, "product.category.name".
+     * @return null if any field in path is null.
      */
     // FIXME: use ONGL or SPeL to get properties
     public static Object getProperty(Object obj, String propertyPath) {
@@ -88,6 +91,11 @@ public class PagesDialectUtil {
         }
     }
 
+    /**
+     * Converts and iterable object to a List.
+     * @param iterable object of type List, Collection or array.
+     * @return a List with the same items as the iterable object.
+     */
     public static List convertToList(Object iterable) {
         List list;
         if (iterable instanceof List) {
@@ -103,14 +111,15 @@ public class PagesDialectUtil {
     }
 
     /** 
-     * Return current date in computer format.
+     * Return current date in format yyyy_MM_dd.
      */
     public static String now() {
         return new SimpleDateFormat("yyyy_MM_dd").format(new Date());
     }
 
     /** 
-     * Simplifies a String removing all non alphanumeric data and replace spaces by underscores.
+     * Simplifies a String removing all non alphanumeric data and replacing spaces by underscores.
+     * @return empty String if the provided string is empty or null.
      */
     public static String simplifyString(String str) {
         StringBuilder sb = new StringBuilder();

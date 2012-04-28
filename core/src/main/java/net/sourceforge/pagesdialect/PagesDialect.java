@@ -9,11 +9,11 @@ import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
- * Custom Thymeleaf dialect with some pagination utilities.
+ * Custom Thymeleaf dialect with some pagination, sorting and export utilities.
  */
 public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
-    // Processor precedences for this dialect
+    // Processor precedences for this dialect.
     public static final int SEPARATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:each processor
     public static final int PAGINATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
     public static final int EXPORT_ATTR_PRECEDENCE = PAGINATE_ATTR_PRECEDENCE - 1; // Run before pages:paginate processor and after pages:sort processor
