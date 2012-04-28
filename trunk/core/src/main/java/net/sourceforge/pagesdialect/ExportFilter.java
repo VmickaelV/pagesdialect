@@ -18,7 +18,8 @@ import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 
 /**
- * Filter for pages:export processor.
+ * Servlet filter for pages:export processor.
+ * Interrupt and clear the servlet response to serve the export file.
  */
 @WebFilter(filterName = "exportFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class ExportFilter implements Filter {
@@ -50,7 +51,7 @@ public class ExportFilter implements Filter {
             String title = (String) request.getAttribute(EXPORT_TITLE);
             response.reset(); // Remove previous response
             String filename = title != null ? PagesDialectUtil.simplifyString(title) : "export";
-            DynamicReport report = new DynamicReport(format, title, filename, response);
+            DynamicReportsHelper report = new DynamicReportsHelper(format, title, filename, response);
             ColumnBuilder[] columns = new ColumnBuilder[fields.size()];
             if (list == null || list.isEmpty()) {
                 throw new IllegalArgumentException("Export list is empty");

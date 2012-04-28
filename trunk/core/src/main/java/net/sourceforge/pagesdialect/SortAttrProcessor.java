@@ -32,8 +32,6 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class SortAttrProcessor extends AbstractAttrProcessor {
 
-    private PagesDialect dialect;
-
     private String sortParam = "sort"; // Default value. Can be overriden by config.
     private String sortTypeParam = "sortType"; // Default value. Can be overriden by config.
 
@@ -46,7 +44,6 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
     }
 
     public void setDialect(PagesDialect dialect) {
-        this.dialect = dialect;
         if (dialect.getProperties().containsKey(PagesDialect.SORT_PARAMETER)) {
             this.sortParam = dialect.getProperties().get(PagesDialect.SORT_PARAMETER);
         }

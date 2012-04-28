@@ -16,6 +16,7 @@ public class SampleProduct {
     private final static List<SampleProduct> products;
     
     static {
+        // List of random sample products.
         SampleCategory[] categories = {new SampleCategory(101, "Apparels"),
             new SampleCategory(102, "Electronics"), new SampleCategory(103, "Furniture"),
             new SampleCategory(104, "Hardware"), new SampleCategory(105, "Media")};
@@ -75,6 +76,9 @@ public class SampleProduct {
         return (int) (min + Math.round(Math.random() * (max - min)));
     }
     
+    /**
+     * Load a list of random sample products.
+     */
     public static List<SampleProduct> loadAllProducts() {
         return products;
     }

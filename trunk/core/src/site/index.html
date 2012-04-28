@@ -16,7 +16,7 @@
         <p>
             <b>Note:</b> these utilities work with the full Collection object in memory. This could be not  
             a good idea if you have a table with thousands of rows, but it is pretty nice for a
-            bunch of simple applications.
+            bunch of simple applications, or if you are using a server cache or any kind of lazy-loading.
         </p>
         <h2>Dialect processors</h2>
         <table>
@@ -25,6 +25,7 @@
                     <th>Processor</th>
                     <th>Parameters</th>
                     <th>Description</th>
+                    <th>Example</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,9 @@
                         It generates page navigation links (first, previous, next, last) and show the
                         current page, total number of pages and total number of results.
                     </td>
+                    <td>
+                        <a href="https://gist.github.com/2522390">Example usage</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>pages:sort</td>
@@ -43,12 +47,17 @@
                     <td>
                         Add sort links to a table headers.
                     </td>
+                    <td>
+                        <a href="https://gist.github.com/2522396">Example usage</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>pages:separate</td>
                     <td>Results among separators (could be an expression)</td>
                     <td>
                         Insert a separator tag after n iterations.
+                    </td>
+                    <td>
                     </td>
                 </tr>
                 <tr>
@@ -60,6 +69,9 @@
                     <td>
                         Export iteration list in PDF format.
                     </td>
+                    <td>
+                        <a href="https://gist.github.com/2522404">Example usage</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>pages:excel</td>
@@ -69,6 +81,9 @@
                     </td>
                     <td>
                         Export iteration list in XLS format.
+                    </td>
+                    <td>
+                        <a href="https://gist.github.com/2522411">Example usage</a>
                     </td>
                 </tr>
             </tbody>
