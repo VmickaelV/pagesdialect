@@ -130,6 +130,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         if (!list.isEmpty()) {
             if (this.format.equals(request.getParameter(exportParam))) {
                 // Store list information for filter
+                request.setAttribute(ExportFilter.EXPORT_TYPE_FORMATTERS, this.dialect.getTypeFormatters());
                 request.setAttribute(ExportFilter.EXPORT_LIST, list);
                 request.setAttribute(ExportFilter.EXPORT_LIST_FORMAT, this.format);
                 List<String> fields = new ArrayList<String>();

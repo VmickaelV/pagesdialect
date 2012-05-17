@@ -48,6 +48,11 @@
             </map>
         </property>
         -->
+        <property name="typeFormatters">
+            <set>
+                <bean class="net.sourceforge.pagesdialect.examples.DateFormatter" />
+            </set>
+        </property>
     </bean>
     <!-- Thymeleaf configuration -->
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">

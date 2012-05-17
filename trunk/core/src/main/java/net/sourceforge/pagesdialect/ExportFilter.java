@@ -2,6 +2,7 @@ package net.sourceforge.pagesdialect;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,6 +33,7 @@ public class ExportFilter implements Filter {
     public static final String EXPORT_FIELDS = "org.thymeleaf.pagesdialect.exportFields"; // Cannot be overriden at the moment
     public static final String EXPORT_HEADERS = "org.thymeleaf.pagesdialect.exportHeaders"; // Cannot be overriden at the moment
     public static final String EXPORT_TITLE = "org.thymeleaf.pagesdialect.exportTitle"; // Cannot be overriden at the moment
+    public static final String EXPORT_TYPE_FORMATTERS = "org.thymeleaf.pagesdialect.exportTypeFormatters"; // Cannot be overriden at the moment
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -44,6 +46,7 @@ public class ExportFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) sRequest;
         HttpServletResponse response = (HttpServletResponse) sResponse;
         if (request.getAttribute(EXPORT_LIST) != null && !response.isCommitted()) {
+            Set<TypeFormatter> typeFormatters = (Set<TypeFormatter>) request.getAttribute(EXPORT_TYPE_FORMATTERS);
             String format = (String) request.getAttribute(EXPORT_LIST_FORMAT);
             List<String> fields = ((List<String>) request.getAttribute(EXPORT_FIELDS));
             List<String> headers = ((List<String>) request.getAttribute(EXPORT_HEADERS));
@@ -59,12 +62,7 @@ public class ExportFilter implements Filter {
             Object sampleObject = list.get(0);
             for (int i = 0; i < fields.size(); i++) {
                 String fieldPath = fields.get(i).trim();
-                DRIDataType fieldType;
-                try {
-                    fieldType = type.detectType(PagesDialectUtil.getProperty(sampleObject, fieldPath).getClass());
-                } catch (DRException ex) {
-                    throw new IllegalArgumentException("Type of field -" + fieldPath + "- unknown", ex);
-                }
+                DRIDataType fieldType = detectType(sampleObject, fieldPath, typeFormatters, request);
                 if (headers != null) {
                     columns[i] = col.column(headers.get(i), fieldPath, fieldType);
                 } else {
@@ -75,6 +73,28 @@ public class ExportFilter implements Filter {
         }
     }
 
+    /**
+     * Get the DRIDataType of a field, getting it from TypeFormatter set if found.
+     */
+    private DRIDataType detectType(Object object, String fieldPath, Set<TypeFormatter> typeFormatters, HttpServletRequest request) {
+        Class objectClass = PagesDialectUtil.getProperty(object, fieldPath).getClass();
+        // search type in TypeFormatter set
+        if (typeFormatters != null) {
+            for (TypeFormatter typeFormatter : typeFormatters) {
+                if (typeFormatter.getValueClass().equals(objectClass)) {
+                    return new DRIDataTypeAdapter(typeFormatter, request);
+                }
+            }
+        }
+        // If not found, try automatic detection
+        try {
+            return type.detectType(objectClass);
+        } catch (DRException ex) {
+            throw new IllegalArgumentException("Type of field -" + fieldPath + "- unknown", ex);
+        }
+        
+    }
+    
     @Override
     public void destroy() {
     }

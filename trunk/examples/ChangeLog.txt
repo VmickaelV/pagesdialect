@@ -1,3 +1,7 @@
+1.0.0-beta3
+===========
+- Example of Date custom formatter for sorting and exporting.
+
 1.0.0-beta2
 ===========
 

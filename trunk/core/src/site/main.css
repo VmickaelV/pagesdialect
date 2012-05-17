@@ -90,3 +90,7 @@ a.export-excel { background-image: url('excel.png'); }
 p.banner {
     text-align: center;
 }
+
+p.back {
+    text-align: right;
+}

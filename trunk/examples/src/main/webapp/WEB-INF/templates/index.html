@@ -16,29 +16,33 @@
                     <th pages:sort="category.name">Category</th>
                     <th pages:sort="stock">Stock</th>
                     <th pages:sort="price">Price</th>
+                    <th pages:sort="offerExpiration">Offer till</th>
                 </tr>
             </thead>
             <tbody th:remove="all-but-first">
                 <tr th:each="product : ${products}"
                         pages:paginate="5"
-                        pages:excel="name, category.name, stock, price"
-                        pages:pdf="name:name, category.name:category, stock:stock, formattedPrice:total">
+                        pages:excel="name, category.name, stock, price, offerExpiration"
+                        pages:pdf="name:name, category.name:category, stock:stock, formattedPrice:total, offerExpiration:offerExpiration">
                     <td th:text="${product.name}">Chair</td>
                     <td th:text="${product.category.name}">Apparels</td>
                     <td th:text="${product.stock}">12</td>
                     <td th:text="${product.formattedPrice}">150 €</td>
+                    <td th:text="${#dates.format(product.offerExpiration, 'dd-MM-yyyy')}">15-06-2012</td>
                 </tr>
                 <tr>
                     <td>Table</td>
                     <td>Apparels</td>
                     <td>8</td>
                     <td>500 €</td>
+                    <td>30-06-2012</td>
                 </tr>
                 <tr>
                     <td>Wardrobe</td>
                     <td>Apparels</td>
                     <td>15</td>
                     <td>650 €</td>
+                    <td>25-06-2012</td>
                 </tr>
             </tbody>
         </table>

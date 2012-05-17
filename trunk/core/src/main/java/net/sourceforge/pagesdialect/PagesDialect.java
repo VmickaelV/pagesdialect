@@ -41,12 +41,22 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
 
     private Map<String, String> properties = new HashMap<String, String>();
     
+    private Set<TypeFormatter> typeFormatters;
+    
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 
     public Map<String, String> getProperties() {
         return properties;
+    }
+
+    public void setTypeFormatters(Set<TypeFormatter> typeFormatters) {
+        this.typeFormatters = typeFormatters;
+    }
+
+    public Set<TypeFormatter> getTypeFormatters() {
+        return typeFormatters;
     }
 
     @Override
