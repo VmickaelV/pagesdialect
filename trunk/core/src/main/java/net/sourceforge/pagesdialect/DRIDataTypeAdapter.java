@@ -1,6 +1,6 @@
 package net.sourceforge.pagesdialect;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
 
@@ -9,9 +9,9 @@ public class DRIDataTypeAdapter<T> extends AbstractDataType<T, T> {
     private TypeFormatter<T> typeFormatter;
     private DRIValueFormatter<String, T> valueFormatter;
     
-    public DRIDataTypeAdapter(TypeFormatter<T> typeFormatter, HttpServletRequest request) {
+    public DRIDataTypeAdapter(TypeFormatter<T> typeFormatter, Locale locale) {
         this.typeFormatter = typeFormatter;
-        this.valueFormatter = typeFormatter.getDRIValueFormatter(request);
+        this.valueFormatter = typeFormatter.getDRIValueFormatter(locale);
     }
 
     @Override

@@ -4,8 +4,10 @@ import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
@@ -104,7 +106,8 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                 } else if (thereIsTypeFormatterForClass(propertyA.getClass())) {
                     // Try to sort after formatting
                     TypeFormatter typeFormatter = getTypeFormatterForClass(propertyA.getClass());
-                    DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(request);
+                    Locale locale = RequestContextUtils.getLocale(request);
+                    DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(locale);
                     String valueA = valueFormatter.format(propertyA, null).toString();
                     String valueB = valueFormatter.format(propertyB, null).toString();
                     Collator collator = Collator.getInstance(request.getLocale());
