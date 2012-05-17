@@ -1,16 +1,16 @@
 package net.sourceforge.pagesdialect;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
 
 /**
- * Allow custom formatting for exporting using request data (for example, Locale).
+ * Allow custom formatting for exporting using locale.
  * 
  * It also will be used in sorting if the type is not Comparable.
  */
 public interface TypeFormatter<T> {
     
-    DRIValueFormatter<String, T> getDRIValueFormatter(HttpServletRequest request);
+    DRIValueFormatter<String, T> getDRIValueFormatter(Locale locale);
     
     Class<T> getValueClass();
 }

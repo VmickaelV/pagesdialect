@@ -2,7 +2,7 @@ package net.sourceforge.pagesdialect.examples;
 
 import java.text.DateFormat;
 import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
@@ -14,10 +14,10 @@ import net.sourceforge.pagesdialect.TypeFormatter;
 public class DateFormatter implements TypeFormatter<Date> {
 
     @Override
-    public DRIValueFormatter<String, Date> getDRIValueFormatter(final HttpServletRequest request) {
+    public DRIValueFormatter<String, Date> getDRIValueFormatter(final Locale locale) {
         return new AbstractValueFormatter<String, Date>() {
             
-            private DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, request.getLocale());
+            private DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale);
             
             @Override
             public String format(Date value, ReportParameters params) {
