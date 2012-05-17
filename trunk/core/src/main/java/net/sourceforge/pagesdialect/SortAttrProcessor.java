@@ -1,5 +1,6 @@
 package net.sourceforge.pagesdialect;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -106,8 +107,9 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(request);
                     String valueA = valueFormatter.format(propertyA, null).toString();
                     String valueB = valueFormatter.format(propertyB, null).toString();
+                    Collator collator = Collator.getInstance(request.getLocale());
                     int sign = desc != null && desc ? -1 : 1;
-                    return sign * valueA.compareTo(valueB);
+                    return sign * collator.compare(valueA, valueB);
                 } else {
                     throw new TemplateProcessingException("Sort field does not implement Comparable");
                 }
