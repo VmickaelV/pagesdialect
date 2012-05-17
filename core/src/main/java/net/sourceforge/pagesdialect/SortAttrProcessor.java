@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
@@ -32,6 +33,7 @@ import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
  **/
 public class SortAttrProcessor extends AbstractAttrProcessor {
 
+    private PagesDialect dialect;
     private String sortParam = "sort"; // Default value. Can be overriden by config.
     private String sortTypeParam = "sortType"; // Default value. Can be overriden by config.
 
@@ -44,6 +46,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
     }
 
     public void setDialect(PagesDialect dialect) {
+        this.dialect = dialect;
         if (dialect.getProperties().containsKey(PagesDialect.SORT_PARAMETER)) {
             this.sortParam = dialect.getProperties().get(PagesDialect.SORT_PARAMETER);
         }
@@ -88,7 +91,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
      * Builds a comparator for provided field.
      * @param field property which will be used by comparator.
      */
-    private Comparator getFieldComparator(final String field, final Boolean desc) {
+    private Comparator getFieldComparator(final HttpServletRequest request, final String field, final Boolean desc) {
         return new Comparator() {
             @Override
             public int compare(Object objA, Object objB) {
@@ -97,11 +100,41 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                 if (propertyA instanceof Comparable && propertyB instanceof Comparable) {
                     int sign = desc != null && desc ? -1 : 1;
                     return sign * ((Comparable) propertyA).compareTo(propertyB);
+                } else if (thereIsTypeFormatterForClass(propertyA.getClass())) {
+                    // Try to sort after formatting
+                    TypeFormatter typeFormatter = getTypeFormatterForClass(propertyA.getClass());
+                    DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(request);
+                    String valueA = valueFormatter.format(propertyA, null).toString();
+                    String valueB = valueFormatter.format(propertyB, null).toString();
+                    int sign = desc != null && desc ? -1 : 1;
+                    return sign * valueA.compareTo(valueB);
                 } else {
                     throw new TemplateProcessingException("Sort field does not implement Comparable");
                 }
             }
         };
+    }
+    
+    private boolean thereIsTypeFormatterForClass(Class objectClass) {
+        if (this.dialect.getTypeFormatters() != null) {
+            for (TypeFormatter typeFormatter : this.dialect.getTypeFormatters()) {
+                if (typeFormatter.getValueClass().equals(objectClass)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    private TypeFormatter getTypeFormatterForClass(Class objectClass) {
+        if (this.dialect.getTypeFormatters() != null) {
+            for (TypeFormatter typeFormatter : this.dialect.getTypeFormatters()) {
+                if (typeFormatter.getValueClass().equals(objectClass)) {
+                    return typeFormatter;
+                }
+            }
+        }
+        throw new IllegalStateException("TypeFormatter not found for class " + objectClass.getName());
     }
 
     /**
@@ -158,7 +191,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     desc = "desc".equals(context.getRequestParameters().get(this.sortTypeParam)[0]);
                 }
                 List iterable = getIterableList(arguments, element);
-                Collections.sort(iterable, getFieldComparator(sortField, desc));
+                Collections.sort(iterable, getFieldComparator(context.getHttpServletRequest(), sortField, desc));
             }
         }
         // Add sort link

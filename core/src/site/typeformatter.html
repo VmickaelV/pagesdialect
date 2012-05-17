@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PagesDialect for Thymeleaf</title>
+        <link rel="stylesheet" href="main.css" />
+        <!-- Code snippets using https://gist.github.com/ -->
+    </head>
+    <body>
+        <h1>TypeFormatter interface</h1>
+        <h2>Custom formatting and sorting</h2>
+        <p>
+            You can customize the formatting in the exported PDF and Excel files implementing
+            the interface <b>TypeFormatter</b>. <br />
+            The formatter has access to the <b>HttpServletRequest</b> object, so it can use request
+            data like <b>Locale</b>. <br />
+        </p>
+        <p>
+            You can find an example of implementation in the webapp demo, search for class
+            <b>DateFormatter</b>.
+        </p>
+        <p>
+            Formatters must be passed to <b>PagesDialect</b> as a <b>Set</b>. For example, if you are using
+            Spring:
+        </p>
+        <script src="https://gist.github.com/2718297.js"></script>
+        <p>
+            The <b>TypeFormatter</b> will be also used by the <b>SortAttrProcessor</b> if the sorting field
+            does not implement <b>Comparable</b>.
+        </p>
+        <p class="back">
+            <a href="index.html">Back</a>
+        </p>
+    </body>
+</html>
