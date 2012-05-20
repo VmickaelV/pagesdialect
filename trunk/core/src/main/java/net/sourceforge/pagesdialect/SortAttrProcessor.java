@@ -100,8 +100,12 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
             public int compare(Object objA, Object objB) {
                 Object propertyA = PagesDialectUtil.getProperty(objA, field);
                 Object propertyB = PagesDialectUtil.getProperty(objB, field);
-                if (propertyA instanceof Comparable && propertyB instanceof Comparable) {
-                    int sign = desc != null && desc ? -1 : 1;
+                int sign = desc != null && desc ? -1 : 1;
+                if (propertyA == null) {
+                    return sign * -1; // nulls at beggining
+                } else if (propertyB == null) {
+                    return sign * 1; // nulls at beggining
+                } if (propertyA instanceof Comparable && propertyB instanceof Comparable) {
                     return sign * ((Comparable) propertyA).compareTo(propertyB);
                 } else if (thereIsTypeFormatterForClass(propertyA.getClass())) {
                     // Try to sort after formatting
@@ -111,7 +115,6 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     String valueA = valueFormatter.format(propertyA, null).toString();
                     String valueB = valueFormatter.format(propertyB, null).toString();
                     Collator collator = Collator.getInstance(request.getLocale());
-                    int sign = desc != null && desc ? -1 : 1;
                     return sign * collator.compare(valueA, valueB);
                 } else {
                     throw new TemplateProcessingException("Sort field does not implement Comparable");
