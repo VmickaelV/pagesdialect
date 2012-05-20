@@ -14,6 +14,10 @@
     <filter>
         <filter-name>exportFilter</filter-name>
         <filter-class>net.sourceforge.pagesdialect.ExportFilter</filter-class>
+        <init-param>
+            <param-name>exportRequestParameterName</param-name>
+            <param-value>export</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>exportFilter</filter-name>

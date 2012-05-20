@@ -2,6 +2,7 @@ package net.sourceforge.pagesdialect;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.FilterRegistration;
 import javax.servlet.http.HttpServletRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
@@ -38,7 +39,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
 
     private PagesDialect dialect;
 
-    private String exportParam = "export"; // Default value. Can be overriden by config.
+    private String exportParam;
     private String exportDivId = "exportlinkcontainer"; // Default value. Can be overriden by config.
 
     private String format;
@@ -55,9 +56,6 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
 
     public void setDialect(PagesDialect dialect) {
         this.dialect = dialect;
-        if (dialect.getProperties().containsKey(PagesDialect.EXPORT_PARAMETER)) {
-            this.exportParam = dialect.getProperties().get(PagesDialect.EXPORT_PARAMETER);
-        }
         if (dialect.getProperties().containsKey(PagesDialect.EXPORT_DIV_ID)) {
             this.exportDivId = dialect.getProperties().get(PagesDialect.EXPORT_DIV_ID);
         }
@@ -89,7 +87,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
         String query = request.getQueryString();
-        String href = uri + "?" + (query != null ? query + "&": "") + exportParam + "=" + this.format;
+        String href = uri + "?" + (query != null ? query + "&": "") + getExportParam(request) + "=" + this.format;
         // Build link element
         Element anchor = new Element("a");
         anchor.setAttribute("class", exportLinkClass);
@@ -173,5 +171,17 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         // Housekeeping
         element.removeAttribute(attributeName);
         return ProcessorResult.OK;
+    }
+
+    /** Get export parameter name from ExportFilter configuration. */
+    private String getExportParam(HttpServletRequest request) {
+        if (this.exportParam == null) {
+            for (FilterRegistration filterRegistration : request.getServletContext().getFilterRegistrations().values()) {
+                if (filterRegistration.getClassName().equals(ExportFilter.class.getName())) {
+                    this.exportParam = filterRegistration.getInitParameter(ExportFilter.EXPORT_INIT_PARAMETER);
+                }
+            }
+        }
+        return this.exportParam;
     }
 }
