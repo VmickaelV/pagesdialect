@@ -25,7 +25,6 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final String PAGED_LIST_ATTR = "pagedListAttribute";
     public static final String SORT_PARAMETER = "sortParameter";
     public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
-    public static final String EXPORT_PARAMETER = "exportParameter";
     public static final String EXPORT_DIV_ID = "exportDivId";
     
     // i18n keys. Can be overriden by configuration.
