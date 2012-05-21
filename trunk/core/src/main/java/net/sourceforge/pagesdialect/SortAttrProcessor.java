@@ -4,11 +4,10 @@ import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IContext;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
@@ -94,7 +93,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
      * Builds a comparator for provided field.
      * @param field property which will be used by comparator.
      */
-    private Comparator getFieldComparator(final HttpServletRequest request, final String field, final Boolean desc) {
+    private Comparator getFieldComparator(final IContext context, final String field, final Boolean desc) {
         return new Comparator() {
             @Override
             public int compare(Object objA, Object objB) {
@@ -110,11 +109,11 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                 } else if (thereIsTypeFormatterForClass(propertyA.getClass())) {
                     // Try to sort after formatting
                     TypeFormatter typeFormatter = getTypeFormatterForClass(propertyA.getClass());
-                    Locale locale = RequestContextUtils.getLocale(request);
-                    DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(locale);
+                    HttpServletRequest request = ((IWebContext) context).getHttpServletRequest();
+                    DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(request);
                     String valueA = valueFormatter.format(propertyA, null).toString();
                     String valueB = valueFormatter.format(propertyB, null).toString();
-                    Collator collator = Collator.getInstance(request.getLocale());
+                    Collator collator = Collator.getInstance(context.getLocale());
                     return sign * collator.compare(valueA, valueB);
                 } else {
                     throw new TemplateProcessingException("Sort field does not implement Comparable");
@@ -199,7 +198,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     desc = "desc".equals(context.getRequestParameters().get(this.sortTypeParam)[0]);
                 }
                 List iterable = getIterableList(arguments, element);
-                Collections.sort(iterable, getFieldComparator(context.getHttpServletRequest(), sortField, desc));
+                Collections.sort(iterable, getFieldComparator(context, sortField, desc));
             }
         }
         // Add sort link

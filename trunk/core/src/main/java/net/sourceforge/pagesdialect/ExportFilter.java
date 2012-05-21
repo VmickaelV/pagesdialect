@@ -77,7 +77,7 @@ public class ExportFilter implements Filter {
             Object sampleObject = list.get(0);
             for (int i = 0; i < fields.size(); i++) {
                 String fieldPath = fields.get(i).trim();
-                DRIDataType fieldType = detectType(sampleObject, fieldPath, typeFormatters, locale);
+                DRIDataType fieldType = detectType(sampleObject, fieldPath, typeFormatters, request);
                 if (headers != null) {
                     columns[i] = col.column(headers.get(i), fieldPath, fieldType);
                 } else {
@@ -91,13 +91,13 @@ public class ExportFilter implements Filter {
     /**
      * Get the DRIDataType of a field, getting it from TypeFormatter set if found.
      */
-    private DRIDataType detectType(Object object, String fieldPath, Set<TypeFormatter> typeFormatters, Locale locale) {
+    private DRIDataType detectType(Object object, String fieldPath, Set<TypeFormatter> typeFormatters, HttpServletRequest request) {
         Class objectClass = PagesDialectUtil.getProperty(object, fieldPath).getClass();
         // search type in TypeFormatter set
         if (typeFormatters != null) {
             for (TypeFormatter typeFormatter : typeFormatters) {
                 if (typeFormatter.getValueClass().equals(objectClass)) {
-                    return new DRIDataTypeAdapter(typeFormatter, locale);
+                    return new DRIDataTypeAdapter(typeFormatter, request);
                 }
             }
         }

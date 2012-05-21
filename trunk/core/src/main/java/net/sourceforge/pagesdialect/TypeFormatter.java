@@ -1,6 +1,6 @@
 package net.sourceforge.pagesdialect;
 
-import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
 
 /**
@@ -10,7 +10,7 @@ import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
  */
 public interface TypeFormatter<T> {
     
-    DRIValueFormatter<String, T> getDRIValueFormatter(Locale locale);
+    DRIValueFormatter<String, T> getDRIValueFormatter(HttpServletRequest request);
     
     Class<T> getValueClass();
 }
