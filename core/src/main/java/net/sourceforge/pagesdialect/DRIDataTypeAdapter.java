@@ -1,17 +1,18 @@
 package net.sourceforge.pagesdialect;
 
-import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
+import org.thymeleaf.context.IContext;
 
 public class DRIDataTypeAdapter<T> extends AbstractDataType<T, T> {
 
     private TypeFormatter<T> typeFormatter;
     private DRIValueFormatter<String, T> valueFormatter;
     
-    public DRIDataTypeAdapter(TypeFormatter<T> typeFormatter, Locale locale) {
+    public DRIDataTypeAdapter(TypeFormatter<T> typeFormatter, HttpServletRequest request) {
         this.typeFormatter = typeFormatter;
-        this.valueFormatter = typeFormatter.getDRIValueFormatter(locale);
+        this.valueFormatter = typeFormatter.getDRIValueFormatter(request);
     }
 
     @Override
