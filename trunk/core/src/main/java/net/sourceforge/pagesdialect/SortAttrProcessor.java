@@ -15,7 +15,6 @@ import org.thymeleaf.exceptions.TemplateProcessingException;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
@@ -66,27 +65,26 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
      * Returns the list iteration for the th:each
      */
     private List getIterableList(Arguments arguments, Element element) {
+        Element elementContainingIteration = null;
         Element table = PagesDialectUtil.getContainerElement(element);
         String iterationAttrName = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
-        String iterationAttrValue = null;
         search : for (Element child : table.getElementChildren()) {
             if (child.hasAttribute(iterationAttrName)) {
-                iterationAttrValue = child.getAttributeValue(iterationAttrName);
+                elementContainingIteration = child;
                 break search;
             } 
             for (Element grandchild : child.getElementChildren()) {
                 if (grandchild.hasAttribute(iterationAttrName)) {
-                    iterationAttrValue = grandchild.getAttributeValue(iterationAttrName);
+                    elementContainingIteration = grandchild;
                     break search;
                 } 
             }
         }
-        if (iterationAttrValue == null) {
+        if (elementContainingIteration == null) {
             throw new TemplateProcessingException("Iteration object not found");
         }
-        String listExpression = iterationAttrValue.split(":")[1].trim();
-        Object iterable = StandardExpressionProcessor.processExpression(arguments, listExpression);
-        return PagesDialectUtil.convertToList(iterable);
+        IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, elementContainingIteration);
+        return iterationListPreparer.findOrCreateIterationList().getPageList();
     }
 
     /**

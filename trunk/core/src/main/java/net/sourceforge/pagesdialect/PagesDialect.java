@@ -19,10 +19,9 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final int PAGINATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
     public static final int EXPORT_ATTR_PRECEDENCE = PAGINATE_ATTR_PRECEDENCE - 1; // Run before pages:paginate processor and after pages:sort processor
     public static final int SORT_ATTR_PRECEDENCE = StandardTextAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:text processor
-    
+
     // Configuration attributes to override default parameters.
     public static final String PAGE_PARAMETER = "pageParameter";
-    public static final String PAGED_LIST_ATTR = "pagedListAttribute";
     public static final String SORT_PARAMETER = "sortParameter";
     public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
     public static final String EXPORT_DIV_ID = "exportDivId";

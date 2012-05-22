@@ -2,7 +2,6 @@ package net.sourceforge.pagesdialect;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -19,7 +18,6 @@ import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * Servlet filter for pages:export processor.
@@ -73,7 +71,6 @@ public class ExportFilter implements Filter {
             if (list == null || list.isEmpty()) {
                 throw new IllegalArgumentException("Export list is empty");
             }
-            Locale locale = RequestContextUtils.getLocale(request);
             Object sampleObject = list.get(0);
             for (int i = 0; i < fields.size(); i++) {
                 String fieldPath = fields.get(i).trim();
@@ -92,7 +89,7 @@ public class ExportFilter implements Filter {
      * Get the DRIDataType of a field, getting it from TypeFormatter set if found.
      */
     private DRIDataType detectType(Object object, String fieldPath, Set<TypeFormatter> typeFormatters, HttpServletRequest request) {
-        Class objectClass = PagesDialectUtil.getProperty(object, fieldPath).getClass();
+        Class objectClass = PagesDialectUtil.getPropertyClass(object, fieldPath);
         // search type in TypeFormatter set
         if (typeFormatters != null) {
             for (TypeFormatter typeFormatter : typeFormatters) {
