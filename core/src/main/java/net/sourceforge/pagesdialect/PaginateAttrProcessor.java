@@ -30,7 +30,6 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
     private PagesDialect dialect;
 
     private String pageParam = "page"; // Default value. Can be overriden by config.
-    private String pagedListAttr = "pagedList"; // Default value. Can be overriden by config.
 
     public PaginateAttrProcessor(IAttributeNameProcessorMatcher matcher) {
         super(matcher);
@@ -42,9 +41,6 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
 
     public void setDialect(PagesDialect dialect) {
         this.dialect = dialect;
-        if (dialect.getProperties().containsKey(PagesDialect.PAGED_LIST_ATTR)) {
-            this.pagedListAttr = dialect.getProperties().get(PagesDialect.PAGED_LIST_ATTR);
-        }
         if (dialect.getProperties().containsKey(PagesDialect.PAGE_PARAMETER)) {
             this.pageParam = dialect.getProperties().get(PagesDialect.PAGE_PARAMETER);
         }
@@ -211,25 +207,14 @@ public class PaginateAttrProcessor extends AbstractAttrProcessor {
         // Parse parameters
         String attributeValue = element.getAttributeValue(attributeName);
         int pageSize = Integer.parseInt(StandardExpressionProcessor.processExpression(arguments, attributeValue).toString());
-        String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
-        if (!element.hasAttribute(iterationAttr)) {
-            throw new TemplateProcessingException("Standard iteration attribute not found");
-        }
-        String iterationAttributeParams[] = element.getAttributeValue(iterationAttr).split(":");
-        String itemObject = iterationAttributeParams[0].trim();
-        String listObject = iterationAttributeParams[1].trim();
-        // Recover original list
-        Object iterable = StandardExpressionProcessor.processExpression(arguments, listObject);
-        PagedListHolder pagedList = new PagedListHolder(PagesDialectUtil.convertToList(iterable));
         // Set current page
+        IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, element);
+        PagedListHolder pagedList = iterationListPreparer.findOrCreateIterationList();
         pagedList.setPageSize(pageSize);
         IWebContext context = (IWebContext) arguments.getContext();
         if (context.getRequestParameters().containsKey(pageParam)) {
             pagedList.setPage(Integer.parseInt(context.getRequestParameters().get(pageParam)[0]));
         }
-        // Replace original with paged list
-        context.getRequestAttributes().put(pagedListAttr, pagedList.getPageList());
-        element.setAttribute(iterationAttr, itemObject + " : ${#ctx.requestAttributes." + pagedListAttr + "}");
         // Add navigation links
         Element container = PagesDialectUtil.getContainerElement(element);
         if (pagedList.getPageCount() > 1) {

@@ -116,15 +116,9 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
     @Override
     protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
-        // Get iteration collection
-        String iterationAttr = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
-        if (!element.hasAttribute(iterationAttr)) {
-            throw new TemplateProcessingException("Standard iteration attribute not found");
-        }
-        String iterationAttributeParams[] = element.getAttributeValue(iterationAttr).split(":");
-        String listObject = iterationAttributeParams[1].trim();
-        Object iterable = StandardExpressionProcessor.processExpression(arguments, listObject);
-        List list = PagesDialectUtil.convertToList(iterable);
+        // Get iteration list
+        IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, element);
+        List list = iterationListPreparer.findOrCreateIterationList().getPageList();
         if (!list.isEmpty()) {
             if (this.format.equals(request.getParameter(exportParam))) {
                 // Store list information for filter

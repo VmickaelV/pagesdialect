@@ -29,7 +29,6 @@
         <property name="properties">
             <map>
                 <entry key="pageParameter" value="page" />
-                <entry key="pagedListAttribute" value="pagedList" />
                 <entry key="sortParameter" value="sort" />
                 <entry key="sortTypeParameter" value="sortType" />
                 <entry key="exportDivId" value="exportlinkcontainer" />                

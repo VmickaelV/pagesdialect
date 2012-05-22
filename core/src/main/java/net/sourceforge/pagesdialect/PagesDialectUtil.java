@@ -1,6 +1,7 @@
 package net.sourceforge.pagesdialect;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,22 +93,39 @@ public class PagesDialectUtil {
     }
 
     /**
-     * Converts and iterable object to a List.
-     * @param iterable object of type List, Collection or array.
-     * @return a List with the same items as the iterable object.
+     * Return a property class from an object via reflection.
+     * @param propertyPath using dot notation, as in, "product.category.name".
+     * @return null if any field in path is null.
      */
-    public static List convertToList(Object iterable) {
-        List list;
-        if (iterable instanceof List) {
-            list = (List) iterable;
-        } else if (iterable instanceof Collection) {
-            list = new ArrayList((Collection) iterable);
-        } else if (iterable.getClass().isArray()) {
-            list = Arrays.asList(iterable);
-        } else {
-            throw new TemplateProcessingException("Iteration object not recognized");
+    // FIXME: use ONGL or SPeL to get properties
+    // FIXME: remove duplicated code with previous method
+    public static Class getPropertyClass(Object obj, String propertyPath) {
+        if (obj == null) {
+            return null;
         }
-        return list;
+        String field, trail = null;
+        int dotPos = propertyPath.indexOf('.');
+        if (dotPos >= 0) {
+            field = propertyPath.substring(0, dotPos);
+            trail = propertyPath.substring(dotPos + 1);
+        } else {
+            field = propertyPath;
+        }
+        String methodName = "get" + Character.toUpperCase(field.charAt(0)) + field.substring(1);
+        try {
+            Method method = obj.getClass().getMethod(methodName);
+            if (trail == null) {
+                return method.getReturnType();
+            } else {
+                return getPropertyClass(method.invoke(obj), trail);
+            }
+        } catch (NoSuchMethodException ex) {
+            throw new TemplateProcessingException("Sort field not found", ex);
+        } catch (IllegalAccessException ex) {
+            throw new TemplateProcessingException("Sort field not accesible", ex);
+        } catch (InvocationTargetException ex) {
+            throw new TemplateProcessingException("Error while getting sort field", ex);
+        }
     }
 
     /** 
