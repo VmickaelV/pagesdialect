@@ -89,9 +89,9 @@ public class ExportFilter implements Filter {
      * Get the DRIDataType of a field, getting it from TypeFormatter set if found.
      */
     private DRIDataType detectType(Object object, String fieldPath, Set<TypeFormatter> typeFormatters, HttpServletRequest request) {
-        Class objectClass = PagesDialectUtil.getPropertyClass(object, fieldPath);
+        Class objectClass = PagesDialectUtil.getPropertyClass(object.getClass(), fieldPath);
         // search type in TypeFormatter set
-        if (typeFormatters != null) {
+        if (objectClass != null && typeFormatters != null) {
             for (TypeFormatter typeFormatter : typeFormatters) {
                 if (typeFormatter.getValueClass().equals(objectClass)) {
                     return new DRIDataTypeAdapter(typeFormatter, request);

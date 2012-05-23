@@ -84,11 +84,11 @@ public class PagesDialectUtil {
                 return getProperty(result, trail);
             }
         } catch (NoSuchMethodException ex) {
-            throw new TemplateProcessingException("Sort field not found", ex);
+            throw new TemplateProcessingException("Field not found", ex);
         } catch (IllegalAccessException ex) {
-            throw new TemplateProcessingException("Sort field not accesible", ex);
+            throw new TemplateProcessingException("Field not accesible", ex);
         } catch (InvocationTargetException ex) {
-            throw new TemplateProcessingException("Error while getting sort field", ex);
+            throw new TemplateProcessingException("Error while getting field", ex);
         }
     }
 
@@ -99,10 +99,7 @@ public class PagesDialectUtil {
      */
     // FIXME: use ONGL or SPeL to get properties
     // FIXME: remove duplicated code with previous method
-    public static Class getPropertyClass(Object obj, String propertyPath) {
-        if (obj == null) {
-            return null;
-        }
+    public static Class getPropertyClass(Class parentClass, String propertyPath) {
         String field, trail = null;
         int dotPos = propertyPath.indexOf('.');
         if (dotPos >= 0) {
@@ -113,18 +110,14 @@ public class PagesDialectUtil {
         }
         String methodName = "get" + Character.toUpperCase(field.charAt(0)) + field.substring(1);
         try {
-            Method method = obj.getClass().getMethod(methodName);
+            Method method = parentClass.getMethod(methodName);
             if (trail == null) {
                 return method.getReturnType();
             } else {
-                return getPropertyClass(method.invoke(obj), trail);
+                return getPropertyClass(method.getReturnType(), trail);
             }
         } catch (NoSuchMethodException ex) {
-            throw new TemplateProcessingException("Sort field not found", ex);
-        } catch (IllegalAccessException ex) {
-            throw new TemplateProcessingException("Sort field not accesible", ex);
-        } catch (InvocationTargetException ex) {
-            throw new TemplateProcessingException("Error while getting sort field", ex);
+            throw new TemplateProcessingException("Field not found", ex);
         }
     }
 
