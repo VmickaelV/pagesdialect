@@ -104,9 +104,9 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     return sign * 1; // nulls at beggining
                 } if (propertyA instanceof Comparable && propertyB instanceof Comparable) {
                     return sign * ((Comparable) propertyA).compareTo(propertyB);
-                } else if (thereIsTypeFormatterForClass(propertyA.getClass())) {
+                } else if (thereIsTypeFormatterForObject(propertyA)) {
                     // Try to sort after formatting
-                    TypeFormatter typeFormatter = getTypeFormatterForClass(propertyA.getClass());
+                    TypeFormatter typeFormatter = getTypeFormatterForObject(propertyA);
                     HttpServletRequest request = ((IWebContext) context).getHttpServletRequest();
                     DRIValueFormatter valueFormatter = typeFormatter.getDRIValueFormatter(request);
                     String valueA = valueFormatter.format(propertyA, null).toString();
@@ -114,16 +114,17 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
                     Collator collator = Collator.getInstance(context.getLocale());
                     return sign * collator.compare(valueA, valueB);
                 } else {
-                    throw new TemplateProcessingException("Sort field does not implement Comparable");
+                    throw new TemplateProcessingException("Field does not implement Comparable");
                 }
             }
         };
     }
     
-    private boolean thereIsTypeFormatterForClass(Class objectClass) {
+    private boolean thereIsTypeFormatterForObject(Object object) {
         if (this.dialect.getTypeFormatters() != null) {
             for (TypeFormatter typeFormatter : this.dialect.getTypeFormatters()) {
-                if (typeFormatter.getValueClass().equals(objectClass)) {
+                Class typeFormatterClass = typeFormatter.getValueClass();
+                if (typeFormatterClass.isInstance(object)) {
                     return true;
                 }
             }
@@ -131,15 +132,16 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
         return false;
     }
     
-    private TypeFormatter getTypeFormatterForClass(Class objectClass) {
+    private TypeFormatter getTypeFormatterForObject(Object object) {
         if (this.dialect.getTypeFormatters() != null) {
             for (TypeFormatter typeFormatter : this.dialect.getTypeFormatters()) {
-                if (typeFormatter.getValueClass().equals(objectClass)) {
+                Class typeFormatterClass = typeFormatter.getValueClass();
+                if (typeFormatterClass.isInstance(object)) {
                     return typeFormatter;
                 }
             }
         }
-        throw new IllegalStateException("TypeFormatter not found for class " + objectClass.getName());
+        throw new IllegalStateException("TypeFormatter not found for class " + object.getClass().getName());
     }
 
     /**
