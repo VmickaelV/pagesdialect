@@ -1,6 +1,7 @@
 1.0.0-beta3
 ===========
 - Support custom formatters for sorting and exporting.
+- Fixed several bugs.
 
 1.0.0-beta2
 ===========
