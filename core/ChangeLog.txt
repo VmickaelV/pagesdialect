@@ -1,3 +1,7 @@
+1.0.0-beta4
+===========
+- Support for expression in export column headers.
+
 1.0.0-beta3
 ===========
 - Support custom formatters for sorting and exporting.
