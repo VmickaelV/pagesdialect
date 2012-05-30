@@ -131,7 +131,11 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
                 for (String part : element.getAttributeValue(attributeName).split(",")) {
                     if (part.contains(":")) {
                         fields.add(part.split(":")[0].trim());
-                        String key = part.split(":")[1].trim();
+                        String keyExpression = part.split(":")[1].trim();
+                        if (!keyExpression.startsWith("$")) {
+                            keyExpression = "'" + keyExpression + "'"; // Simplify constant expressions
+                        }
+                        String key = StandardExpressionProcessor.processExpression(arguments, keyExpression).toString();
                         String header = MessageResolutionUtils.resolveMessageForTemplate(arguments, key, null, false);
                         if (header == null) {
                             header = key;
