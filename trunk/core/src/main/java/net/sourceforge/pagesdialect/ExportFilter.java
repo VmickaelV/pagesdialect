@@ -93,7 +93,7 @@ public class ExportFilter implements Filter {
         // search type in TypeFormatter set
         if (objectClass != null && typeFormatters != null) {
             for (TypeFormatter typeFormatter : typeFormatters) {
-                if (typeFormatter.getValueClass().equals(objectClass)) {
+                if (typeFormatter.getValueClass().isAssignableFrom(objectClass)) {
                     return new DRIDataTypeAdapter(typeFormatter, request);
                 }
             }

@@ -92,7 +92,7 @@ public class PagesDialectUtil {
         }
     }
 
-    /**
+    /** 
      * Return a property class from an object via reflection.
      * @param propertyPath using dot notation, as in, "product.category.name".
      * @return null if any field in path is null.
