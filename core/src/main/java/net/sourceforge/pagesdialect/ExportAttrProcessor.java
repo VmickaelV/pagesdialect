@@ -10,12 +10,10 @@ import org.thymeleaf.dom.DOMSelector;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.dom.Text;
-import org.thymeleaf.exceptions.TemplateProcessingException;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import org.thymeleaf.standard.expression.StandardExpressionProcessor;
-import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 import org.thymeleaf.util.MessageResolutionUtils;
 
 /**
@@ -118,7 +116,7 @@ public class ExportAttrProcessor extends AbstractAttrProcessor {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         // Get iteration list
         IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, element);
-        List list = iterationListPreparer.findOrCreateIterationList().getPageList();
+        List list = iterationListPreparer.findOrCreateIterationList().getOriginalList();
         if (!list.isEmpty()) {
             if (this.format.equals(request.getParameter(exportParam))) {
                 // Store list information for filter
