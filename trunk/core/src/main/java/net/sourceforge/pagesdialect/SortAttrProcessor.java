@@ -84,7 +84,7 @@ public class SortAttrProcessor extends AbstractAttrProcessor {
             throw new TemplateProcessingException("Iteration object not found");
         }
         IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, elementContainingIteration);
-        return iterationListPreparer.findOrCreateIterationList().getPageList();
+        return iterationListPreparer.findOrCreateIterationList().getOriginalList();
     }
 
     /**
