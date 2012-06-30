@@ -3,11 +3,7 @@ package net.sourceforge.pagesdialect;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.thymeleaf.Arguments;
@@ -75,14 +71,27 @@ public class PagesDialectUtil {
         } else {
             field = propertyPath;
         }
-        String methodName = "get" + Character.toUpperCase(field.charAt(0)) + field.substring(1);
+        Object result = invokeMethod(obj, field);
+        if (trail == null) {
+            return result;
+        } else {
+            return getProperty(result, trail);
+        }
+    }
+
+    private static Object invokeMethod(Object obj, String fieldName) {
         try {
-            Object result = obj.getClass().getMethod(methodName).invoke(obj);
-            if (trail == null) {
-                return result;
-            } else {
-                return getProperty(result, trail);
+            // First try getXXX
+            String methodName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+            if (hasDeclaredMethod(obj.getClass(), methodName)) {
+                return obj.getClass().getMethod(methodName).invoke(obj);
             }
+            // Then try isXXX
+            methodName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+            if (hasDeclaredMethod(obj.getClass(), methodName)) {
+                return obj.getClass().getMethod(methodName).invoke(obj);
+            }
+            throw new TemplateProcessingException("Field not found for field " + fieldName);
         } catch (NoSuchMethodException ex) {
             throw new TemplateProcessingException("Field not found", ex);
         } catch (IllegalAccessException ex) {
@@ -91,7 +100,16 @@ public class PagesDialectUtil {
             throw new TemplateProcessingException("Error while getting field", ex);
         }
     }
-
+    
+    private static boolean hasDeclaredMethod(Class clazz, String methodName) {
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.getName().equals(methodName) && method.getParameterTypes().length == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /** 
      * Return a property class from an object via reflection.
      * @param propertyPath using dot notation, as in, "product.category.name".
