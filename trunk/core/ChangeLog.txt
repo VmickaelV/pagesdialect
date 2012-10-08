@@ -1,6 +1,6 @@
 1.0.0-beta4
 ===========
-- Support for expression in export column headers.
+- Support for expressions in export column headers.
 
 1.0.0-beta3
 ===========
