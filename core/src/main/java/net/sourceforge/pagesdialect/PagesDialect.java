@@ -25,7 +25,7 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final String SORT_PARAMETER = "sortParameter";
     public static final String SORT_TYPE_PARAMETER = "sortTypeParameter";
     public static final String EXPORT_DIV_ID = "exportDivId";
-    
+
     // i18n keys. Can be overriden by configuration.
     public static final String I18N_ONE_RESULT = "pagesdialect.oneResult";
     public static final String I18N_RESULTS = "pagesdialect.results";
@@ -39,9 +39,9 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public static final String I18N_EXPORT_EXCEL = "pagesdialect.exportExcel";
 
     private Map<String, String> properties = new HashMap<String, String>();
-    
+
     private Set<TypeFormatter> typeFormatters;
-    
+
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
