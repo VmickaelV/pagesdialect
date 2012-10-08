@@ -4,7 +4,7 @@
 
     <groupId>net.sourceforge.pagesdialect</groupId>
     <artifactId>pagesdialect-core</artifactId>
-    <version>1.0.0-beta4-SNAPSHOT</version>
+    <version>1.0.0-beta4</version>
     <packaging>jar</packaging>
 
     <name>pagesdialect</name>
@@ -20,9 +20,9 @@
     </licenses>
 
     <scm>
-        <url>https://svn.code.sf.net/p/pagesdialect/code/trunk/core</url>
-        <connection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/trunk/core</connection>
-        <developerConnection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/trunk/core</developerConnection>
+        <url>https://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta4</url>
+        <connection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta4</connection>
+        <developerConnection>scm:svn:https://svn.code.sf.net/p/pagesdialect/code/tags/pagesdialect-core-1.0.0-beta4</developerConnection>
     </scm>
 
     <developers>
