@@ -17,7 +17,7 @@ import org.thymeleaf.standard.StandardDialect;
  * Utility methods for PagesDialect.
  */
 public class PagesDialectUtil {
-    
+
     /**
      * Look up StandardDialect prefix, usually "th".
      */
@@ -83,12 +83,12 @@ public class PagesDialectUtil {
         try {
             // First try getXXX
             String methodName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-            if (hasDeclaredMethod(obj.getClass(), methodName)) {
+            if (hasMethod(obj.getClass(), methodName)) {
                 return obj.getClass().getMethod(methodName).invoke(obj);
             }
             // Then try isXXX
             methodName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-            if (hasDeclaredMethod(obj.getClass(), methodName)) {
+            if (hasMethod(obj.getClass(), methodName)) {
                 return obj.getClass().getMethod(methodName).invoke(obj);
             }
             throw new TemplateProcessingException("Field not found for field " + fieldName);
@@ -100,17 +100,17 @@ public class PagesDialectUtil {
             throw new TemplateProcessingException("Error while getting field", ex);
         }
     }
-    
-    private static boolean hasDeclaredMethod(Class clazz, String methodName) {
-        for (Method method : clazz.getDeclaredMethods()) {
+
+    private static boolean hasMethod(Class clazz, String methodName) {
+        for (Method method : clazz.getMethods()) {
             if (method.getName().equals(methodName) && method.getParameterTypes().length == 0) {
                 return true;
             }
         }
         return false;
     }
-    
-    /** 
+
+    /**
      * Return a property class from an object via reflection.
      * @param propertyPath using dot notation, as in, "product.category.name".
      * @return null if any field in path is null.
@@ -139,14 +139,14 @@ public class PagesDialectUtil {
         }
     }
 
-    /** 
+    /**
      * Return current date in format yyyy_MM_dd.
      */
     public static String now() {
         return new SimpleDateFormat("yyyy_MM_dd").format(new Date());
     }
 
-    /** 
+    /**
      * Simplifies a String removing all non alphanumeric data and replacing spaces by underscores.
      * @return empty String if the provided string is empty or null.
      */
