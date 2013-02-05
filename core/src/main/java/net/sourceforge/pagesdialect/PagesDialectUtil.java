@@ -12,6 +12,8 @@ import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;
 import org.thymeleaf.spring3.dialect.SpringStandardDialect;
 import org.thymeleaf.standard.StandardDialect;
+import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+import org.thymeleaf.util.MessageResolutionUtils;
 
 /**
  * Utility methods for PagesDialect.
@@ -163,5 +165,36 @@ public class PagesDialectUtil {
             sb.append("_");
         }
         return sb.toString();
+    }
+
+    /**
+     * Process a Thymeleaf expression if it follows the pattern ${...}. If not, return the same expression.
+     *
+     * This is useful to avoid that attribute expressions need quotes, i.e., th:toggle="myID" instead of
+     * th:toggle="'myID'"
+     */
+    public static Object expressionValue(Arguments arguments, String expression) {
+        if (expression.startsWith("${") && expression.endsWith("}")
+                || expression.startsWith("@{") && expression.endsWith("}")
+                || expression.startsWith("#{") && expression.endsWith("}")) {
+            return StandardExpressionProcessor.processExpression(arguments, expression);
+        } else {
+            return expression;
+        }
+    }
+   
+    public static String templateMessage(Arguments arguments, String messageKey, String ... params) {
+        String templateMessage = MessageResolutionUtils.resolveMessageForTemplate(arguments, messageKey, params, false);
+        if (templateMessage != null) {
+            return templateMessage;
+        }
+        String processorMessage =MessageResolutionUtils.resolveMessageForClass(
+            arguments.getConfiguration(), PagesDialectUtil.class,
+            arguments.getContext().getLocale(), messageKey, params, false);
+        if (processorMessage != null) {
+            return processorMessage;
+        }
+        return MessageResolutionUtils.getAbsentMessageRepresentation(
+            messageKey, arguments.getContext().getLocale());
     }
 }
