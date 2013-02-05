@@ -71,25 +71,10 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     @Override
     public Set<IProcessor> getProcessors() {
         Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
-        // pages:paginate
-        PaginateAttrProcessor paginateAttrProcessor = new PaginateAttrProcessor("paginate");
-        paginateAttrProcessor.setDialect(this);
-        attrProcessors.add(paginateAttrProcessor);
-        // pages:sort
-        SortAttrProcessor sortAttrProcessor = new SortAttrProcessor("sort");
-        sortAttrProcessor.setDialect(this);
-        attrProcessors.add(sortAttrProcessor);
-        // pages:pdf
-        ExportAttrProcessor exportPdfAttrProcessor = new ExportAttrProcessor("pdf");
-        exportPdfAttrProcessor.setDialect(this);
-        exportPdfAttrProcessor.setFormat(ExportFilter.PDF_FORMAT);
-        attrProcessors.add(exportPdfAttrProcessor);
-        // pages:excel
-        ExportAttrProcessor exportExcelAttrProcessor = new ExportAttrProcessor("excel");
-        exportExcelAttrProcessor.setDialect(this);
-        exportExcelAttrProcessor.setFormat(ExportFilter.EXCEL_FORMAT);
-        attrProcessors.add(exportExcelAttrProcessor);
-        // pages:separate
+        attrProcessors.add(new PaginateAttrProcessor("paginate", this));
+        attrProcessors.add(new SortAttrProcessor("sort", this));
+        attrProcessors.add(new ExportAttrProcessor("pdf", this, ExportFilter.PDF_FORMAT));
+        attrProcessors.add(new ExportAttrProcessor("excel", this, ExportFilter.EXCEL_FORMAT));
         attrProcessors.add(new SeparateAttrProcessor("separate"));
         return attrProcessors;
     }
