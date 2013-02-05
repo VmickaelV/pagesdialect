@@ -142,12 +142,10 @@ public class PaginateCommand {
         Element div = new Element("div");
         div.setAttribute("class", "paginate");
         String text;
-        // "First" link
         if (!pagedList.isFirstPage()) {
+            // "First" link
             addLinkToDiv(div, 0, "paginate-first", "First", PagesDialect.I18N_FIRST);
-        }
-        // "Previous" link
-        if (!pagedList.isFirstPage()) {
+            // "Previous" link
             addLinkToDiv(div, pagedList.getPage() - 1, "paginate-previous", "Previous", PagesDialect.I18N_PREVIOUS);
         }
         // "Page N of M" text
@@ -157,12 +155,10 @@ public class PaginateCommand {
         text = getMessageOrDefault(arguments, "Page {0} of {1}", PagesDialect.I18N_PAGE, params);
         currentPage.addChild(new Text(text));
         div.addChild(currentPage);
-        // "Next" link
         if (!pagedList.isLastPage()) {
+            // "Next" link
             addLinkToDiv(div, pagedList.getPage() + 1, "paginate-next", "Next", PagesDialect.I18N_NEXT);
-        }
-        // "Last" link
-        if (!pagedList.isLastPage()) {
+            // "Last" link
             addLinkToDiv(div, pagedList.getPageCount() - 1, "paginate-last", "Last", PagesDialect.I18N_LAST);
         }
         container.getParent().insertAfter(container, div);
@@ -170,9 +166,9 @@ public class PaginateCommand {
 
     private void addLinkToDiv(Element div, int targetPage, String className, String defaultText, String i18nKey) {
         Element link = new Element("a");
-        link.setAttribute("class", "paginate-last");
-        link.setAttribute("href", getPageUrl(pagedList.getPageCount() - 1));
-        String text = getMessageOrDefault(arguments, "Last", PagesDialect.I18N_LAST);
+        link.setAttribute("class", className);
+        link.setAttribute("href", getPageUrl(targetPage));
+        String text = getMessageOrDefault(arguments, defaultText, i18nKey);
         link.addChild(new Text(text));
         div.addChild(link);
         Text separator = new Text(" ");
