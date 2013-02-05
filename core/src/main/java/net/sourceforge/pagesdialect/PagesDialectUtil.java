@@ -182,14 +182,14 @@ public class PagesDialectUtil {
             return expression;
         }
     }
-   
+
     public static String templateMessage(Arguments arguments, String messageKey, String ... params) {
         String templateMessage = MessageResolutionUtils.resolveMessageForTemplate(arguments, messageKey, params, false);
         if (templateMessage != null) {
             return templateMessage;
         }
         String processorMessage =MessageResolutionUtils.resolveMessageForClass(
-            arguments.getConfiguration(), PagesDialectUtil.class,
+            arguments.getConfiguration(), PagesDialect.class,
             arguments.getContext().getLocale(), messageKey, params, false);
         if (processorMessage != null) {
             return processorMessage;
