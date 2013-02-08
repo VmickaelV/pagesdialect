@@ -20,7 +20,7 @@ public class ExportCommand {
     private String attributeName;
     private PagesDialect dialect;
 
-    private String exportParam;
+    private String exportParam = "export"; // Default value. Can be overriden by config.
     private String exportDivId = "exportlinkcontainer"; // Default value. Can be overriden by config.
 
     private String format;
@@ -45,6 +45,8 @@ public class ExportCommand {
         } else {
             throw new IllegalArgumentException("Export format not recognized");
         }
+        HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
+        readExportParam(request);
     }
 
     public void execute() {
@@ -111,7 +113,7 @@ public class ExportCommand {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         String uri = request.getRequestURL().toString().split("\\?")[0];
         String query = request.getQueryString();
-        String href = uri + "?" + (query != null ? query + "&": "") + getExportParam(request) + "=" + this.format;
+        String href = uri + "?" + (query != null ? query + "&": "") + exportParam + "=" + this.format;
         // Build link element
         Element anchor = new Element("a");
         anchor.setAttribute("class", exportLinkClass);
@@ -138,14 +140,11 @@ public class ExportCommand {
     }
 
     /** Get export parameter name from ExportFilter configuration. */
-    private String getExportParam(HttpServletRequest request) {
-        if (this.exportParam == null) {
-            for (FilterRegistration filterRegistration : request.getServletContext().getFilterRegistrations().values()) {
-                if (filterRegistration.getClassName().equals(ExportFilter.class.getName())) {
-                    this.exportParam = filterRegistration.getInitParameter(ExportFilter.EXPORT_INIT_PARAMETER);
-                }
+    private void readExportParam(HttpServletRequest request) {
+        for (FilterRegistration filterRegistration : request.getServletContext().getFilterRegistrations().values()) {
+            if (filterRegistration.getClassName().equals(ExportFilter.class.getName())) {
+                exportParam = filterRegistration.getInitParameter(ExportFilter.EXPORT_INIT_PARAMETER);
             }
         }
-        return this.exportParam;
     }
 }

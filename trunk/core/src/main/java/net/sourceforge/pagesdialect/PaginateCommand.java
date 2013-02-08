@@ -155,6 +155,7 @@ public class PaginateCommand {
         text = getMessageOrDefault(arguments, "Page {0} of {1}", PagesDialect.I18N_PAGE, params);
         currentPage.addChild(new Text(text));
         div.addChild(currentPage);
+        div.addChild(new Text(" "));
         if (!pagedList.isLastPage()) {
             // "Next" link
             addLinkToDiv(div, pagedList.getPage() + 1, "paginate-next", "Next", PagesDialect.I18N_NEXT);
