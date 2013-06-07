@@ -1,6 +1,7 @@
 package net.sourceforge.pagesdialect;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.servlet.FilterRegistration;
 import javax.servlet.http.HttpServletRequest;
@@ -36,10 +37,10 @@ public class ExportCommand {
             this.exportDivId = dialect.getProperties().get(PagesDialect.EXPORT_DIV_ID);
         }
         this.format = format;
-        if (ExportFilter.PDF_FORMAT.equals(format)) {
+        if (ExportPerformer.PDF_FORMAT.equals(format)) {
             this.exportLinkClass = "export-pdf";
             this.i18Export = PagesDialect.I18N_EXPORT_PDF;
-        } else if (ExportFilter.EXCEL_FORMAT.equals(format)) {
+        } else if (ExportPerformer.EXCEL_FORMAT.equals(format)) {
             this.exportLinkClass = "export-excel";
             this.i18Export = PagesDialect.I18N_EXPORT_EXCEL;
         } else {
@@ -52,14 +53,14 @@ public class ExportCommand {
     public void execute() {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         // Get iteration list
-        IterationListPreparer iterationListPreparer = new IterationListPreparer(arguments, element);
-        List list = iterationListPreparer.findOrCreateIterationList().getOriginalList();
+        IterationListFinder iterationListFinder = new IterationListFinder(arguments, element);
+        Collection list = (Collection) iterationListFinder.getIterationObject();
         if (!list.isEmpty()) {
             if (this.format.equals(request.getParameter(exportParam))) {
                 // Store list information for filter
-                request.setAttribute(ExportFilter.EXPORT_TYPE_FORMATTERS, this.dialect.getTypeFormatters());
-                request.setAttribute(ExportFilter.EXPORT_LIST, list);
-                request.setAttribute(ExportFilter.EXPORT_LIST_FORMAT, this.format);
+                request.setAttribute(ExportPerformer.EXPORT_TYPE_FORMATTERS, this.dialect.getTypeFormatters());
+                request.setAttribute(ExportPerformer.EXPORT_LIST, list);
+                request.setAttribute(ExportPerformer.EXPORT_LIST_FORMAT, this.format);
                 List<String> fields = new ArrayList<String>();
                 List<String> headers = new ArrayList<String>();
                 boolean someHeader = false;
@@ -82,9 +83,9 @@ public class ExportCommand {
                         headers.add("");
                     }
                 }
-                request.setAttribute(ExportFilter.EXPORT_FIELDS, fields);
+                request.setAttribute(ExportPerformer.EXPORT_FIELDS, fields);
                 if (someHeader) {
-                    request.setAttribute(ExportFilter.EXPORT_HEADERS, headers);
+                    request.setAttribute(ExportPerformer.EXPORT_HEADERS, headers);
                 }
                 // Caption
                 Element container = PagesDialectUtil.getContainerElement(element);
@@ -92,7 +93,7 @@ public class ExportCommand {
                     Element firstChild = container.getElementChildren().get(0);
                     if ("caption".equals(firstChild.getOriginalName())) {
                         Text text = (Text) firstChild.getFirstChild();
-                        request.setAttribute(ExportFilter.EXPORT_TITLE, text.getContent());
+                        request.setAttribute(ExportPerformer.EXPORT_TITLE, text.getContent());
                     }
                 }
             } else {

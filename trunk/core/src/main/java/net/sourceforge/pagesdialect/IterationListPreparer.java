@@ -31,35 +31,24 @@ public class IterationListPreparer {
      * If iteration object is not RecoverablePagedListHolder, replace it.
      */
     public RecoverablePagedListHolder findOrCreateIterationList() {
-        String iterationExpression = findIterationExpression(arguments, elementContainingIteration);
-        String iterationAttributeParams[] = elementContainingIteration.getAttributeValue(iterationExpression).split(":");
-        String itemObject = iterationAttributeParams[0].trim();
-        String listObject = iterationAttributeParams[1].trim();
         // Check if RecoverablePagedListHolder has been already created
         IWebContext context = (IWebContext) arguments.getContext();
         if (context.getRequestAttributes().containsKey(PAGED_LIST_HOLDER_ATTR)) {
             return (RecoverablePagedListHolder) context.getRequestAttributes().get(PAGED_LIST_HOLDER_ATTR);
         } else {
             // Create and store RecoverablePagedListHolder.
-            Object originalIterable = StandardExpressionProcessor.processExpression(arguments, listObject);
+            IterationListFinder iterationListFinder = new IterationListFinder(arguments, elementContainingIteration);
+            Object originalIterable = iterationListFinder.getIterationObject();
+            String itemName = iterationListFinder.getItemName();
+            String iterationExpression = iterationListFinder.getIterationExpression();
             // Replace original with paged list
             RecoverablePagedListHolder pagedListHolder = new RecoverablePagedListHolder(convertToList(originalIterable));
             context.getRequestAttributes().put(PAGED_LIST_HOLDER_ATTR, pagedListHolder);
-            elementContainingIteration.setAttribute(iterationExpression, itemObject + " : ${#ctx.requestAttributes." + PAGED_LIST_HOLDER_ATTR + ".pageList}");
+            elementContainingIteration.setAttribute(iterationExpression, itemName + " : ${#ctx.requestAttributes." + PAGED_LIST_HOLDER_ATTR + ".pageList}");
             return pagedListHolder;
         }    
     }
     
-    /**
-     * Find th:each attribute value inside the iterating element.
-     */
-    private String findIterationExpression(Arguments arguments, Element element) {
-        String iterationExpression = PagesDialectUtil.getStandardDialectPrefix(arguments) + ":" + StandardEachAttrProcessor.ATTR_NAME; // th:each
-        if (!element.hasAttribute(iterationExpression)) {
-            throw new TemplateProcessingException("Standard iteration attribute not found");
-        }
-        return iterationExpression;
-    }
     
     
     /**
