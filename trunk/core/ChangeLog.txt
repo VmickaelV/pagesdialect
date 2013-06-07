@@ -1,6 +1,7 @@
 1.0.0-beta5
 ===========
 - Fixed issue with default i18n messages.
+- New attribute processors pages:paginated y pages:sortLink for server paginated lists.
 
 1.0.0-beta4
 ===========
