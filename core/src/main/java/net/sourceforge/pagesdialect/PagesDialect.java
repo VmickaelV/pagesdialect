@@ -13,12 +13,15 @@ import org.thymeleaf.standard.processor.attr.StandardTextAttrProcessor;
  * Custom Thymeleaf dialect with some pagination, sorting and export utilities.
  */
 public class PagesDialect extends AbstractXHTMLEnabledDialect {
-
+    
     // Processor precedences for this dialect.
     public static final int SEPARATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:each processor
     public static final int PAGINATE_ATTR_PRECEDENCE = StandardEachAttrProcessor.ATTR_PRECEDENCE - 1; // Need to be run before th:each processor
     public static final int EXPORT_ATTR_PRECEDENCE = PAGINATE_ATTR_PRECEDENCE - 1; // Run before pages:paginate processor and after pages:sort processor
     public static final int SORT_ATTR_PRECEDENCE = StandardTextAttrProcessor.ATTR_PRECEDENCE + 1; // Need to be run after th:text processor
+
+    // Default value por page requests parameter
+    public static final String PAGE_PARAMETER_DEFAULT = "page";
 
     // Configuration attributes to override default parameters.
     public static final String PAGE_PARAMETER = "pageParameter";
@@ -72,10 +75,20 @@ public class PagesDialect extends AbstractXHTMLEnabledDialect {
     public Set<IProcessor> getProcessors() {
         Set<IProcessor> attrProcessors = new HashSet<IProcessor>();
         attrProcessors.add(new PaginateAttrProcessor("paginate", this));
+        attrProcessors.add(new PaginatedAttrProcessor("paginated", this));
+        attrProcessors.add(new SortLinkAttrProcessor("sortLink", this));
         attrProcessors.add(new SortAttrProcessor("sort", this));
-        attrProcessors.add(new ExportAttrProcessor("pdf", this, ExportFilter.PDF_FORMAT));
-        attrProcessors.add(new ExportAttrProcessor("excel", this, ExportFilter.EXCEL_FORMAT));
+        attrProcessors.add(new ExportAttrProcessor("pdf", this, ExportPerformer.PDF_FORMAT));
+        attrProcessors.add(new ExportAttrProcessor("excel", this, ExportPerformer.EXCEL_FORMAT));
         attrProcessors.add(new SeparateAttrProcessor("separate"));
         return attrProcessors;
+    }
+    
+    public String getPageParameter() {
+        if (properties.containsKey(PagesDialect.PAGE_PARAMETER)) {
+            return properties.get(PagesDialect.PAGE_PARAMETER);
+        } else {
+            return PAGE_PARAMETER_DEFAULT;
+        }
     }
 }
