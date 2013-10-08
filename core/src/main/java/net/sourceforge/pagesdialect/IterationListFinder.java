@@ -3,7 +3,6 @@ package net.sourceforge.pagesdialect;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
@@ -41,7 +40,7 @@ public class IterationListFinder {
         String[] iterationAttributeParams = element.getAttributeValue(iterationExpression).split(":");
         itemName = iterationAttributeParams[0].trim();
         iterationObjectName = iterationAttributeParams[1].trim();
-        iterationObject = StandardExpressionProcessor.processExpression(arguments, iterationObjectName);
+        iterationObject = PagesDialectUtil.expressionValue(arguments, iterationObjectName);
     }
 
     /** Given th:each="product : ${productList}" returns "th:each". */

@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.Configuration;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;
 import org.thymeleaf.spring3.dialect.SpringStandardDialect;
 import org.thymeleaf.standard.StandardDialect;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
+import org.thymeleaf.standard.expression.IStandardExpression;
+import org.thymeleaf.standard.expression.IStandardExpressionParser;
+import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.util.MessageResolutionUtils;
 
 /**
@@ -35,10 +38,8 @@ public class PagesDialectUtil {
     }
 
     /**
-     * Return the container element for some elements.
-     * If the iteration element is a tr, td or th, return the parent table.
-     * If the iteration element is a list item, return the list element.
-     * Else, return the element itself.
+     * Return the container element for some elements. If the iteration element is a tr, td or th, return the parent
+     * table. If the iteration element is a list item, return the list element. Else, return the element itself.
      */
     public static Element getContainerElement(Element element) {
         String name = element.getOriginalName();
@@ -57,6 +58,7 @@ public class PagesDialectUtil {
 
     /**
      * Return a property from an object via reflection.
+     *
      * @param propertyPath using dot notation, as in, "product.category.name".
      * @return null if any field in path is null.
      */
@@ -114,6 +116,7 @@ public class PagesDialectUtil {
 
     /**
      * Return a property class from an object via reflection.
+     *
      * @param propertyPath using dot notation, as in, "product.category.name".
      * @return null if any field in path is null.
      */
@@ -150,6 +153,7 @@ public class PagesDialectUtil {
 
     /**
      * Simplifies a String removing all non alphanumeric data and replacing spaces by underscores.
+     *
      * @return empty String if the provided string is empty or null.
      */
     public static String simplifyString(String str) {
@@ -177,24 +181,27 @@ public class PagesDialectUtil {
         if (expression.startsWith("${") && expression.endsWith("}")
                 || expression.startsWith("@{") && expression.endsWith("}")
                 || expression.startsWith("#{") && expression.endsWith("}")) {
-            return StandardExpressionProcessor.processExpression(arguments, expression);
+            Configuration configuration = arguments.getConfiguration();
+            IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
+            IStandardExpression standardExpression = expressionParser.parseExpression(configuration, arguments, expression);
+            return standardExpression.execute(configuration, arguments);
         } else {
             return expression;
         }
     }
 
-    public static String templateMessage(Arguments arguments, String messageKey, String ... params) {
+    public static String templateMessage(Arguments arguments, String messageKey, String... params) {
         String templateMessage = MessageResolutionUtils.resolveMessageForTemplate(arguments, messageKey, params, false);
         if (templateMessage != null) {
             return templateMessage;
         }
-        String processorMessage =MessageResolutionUtils.resolveMessageForClass(
-            arguments.getConfiguration(), PagesDialect.class,
-            arguments.getContext().getLocale(), messageKey, params, false);
+        String processorMessage = MessageResolutionUtils.resolveMessageForClass(
+                arguments.getConfiguration(), PagesDialect.class,
+                arguments.getContext().getLocale(), messageKey, params, false);
         if (processorMessage != null) {
             return processorMessage;
         }
         return MessageResolutionUtils.getAbsentMessageRepresentation(
-            messageKey, arguments.getContext().getLocale());
+                messageKey, arguments.getContext().getLocale());
     }
 }

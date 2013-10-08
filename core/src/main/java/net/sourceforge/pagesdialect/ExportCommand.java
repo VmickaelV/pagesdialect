@@ -11,7 +11,6 @@ import org.thymeleaf.dom.DOMSelector;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.dom.Text;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.util.MessageResolutionUtils;
 
 public class ExportCommand {
@@ -71,7 +70,7 @@ public class ExportCommand {
                         if (!keyExpression.startsWith("$")) {
                             keyExpression = "'" + keyExpression + "'"; // Simplify constant expressions
                         }
-                        String key = StandardExpressionProcessor.processExpression(arguments, keyExpression).toString();
+                        String key = PagesDialectUtil.expressionValue(arguments, keyExpression).toString();
                         String header = MessageResolutionUtils.resolveMessageForTemplate(arguments, key, null, false);
                         if (header == null) {
                             header = key;
