@@ -4,7 +4,7 @@
 
     <groupId>net.sourceforge.pagesdialect</groupId>
     <artifactId>pagesdialect-example-webapp</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>pagesdialect-example-webapp</name>
@@ -34,11 +34,9 @@
     </developers>
 
     <properties>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <thymeleaf.version>2.0.13</thymeleaf.version>
-        <springframework.version>3.1.2.RELEASE</springframework.version>
-        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+        <thymeleaf.version>2.1.0-beta2</thymeleaf.version>
+        <springframework.version>3.2.4.RELEASE</springframework.version>
     </properties>
 
     <dependencies>
@@ -80,7 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -93,7 +91,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <version>1.7</version>
+                <version>1.9</version>
                 <executions>
                     <execution>
                         <id>build</id>
@@ -114,7 +112,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.4</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -122,7 +120,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.8</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
