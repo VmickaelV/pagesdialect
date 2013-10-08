@@ -2,11 +2,8 @@ package net.sourceforge.pagesdialect;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
-import org.thymeleaf.exceptions.TemplateProcessingException;
-import org.thymeleaf.processor.IAttributeNameProcessorMatcher;
 import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.attr.AbstractAttrProcessor;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 
 /**
  * Inside a th:each iteration, add a
