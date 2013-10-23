@@ -74,7 +74,9 @@ public class SortCommand extends SortLinkCommand {
                 Object propertyA = PagesDialectUtil.getProperty(objA, field);
                 Object propertyB = PagesDialectUtil.getProperty(objB, field);
                 int sign = desc != null && desc ? -1 : 1;
-                if (propertyA == null) {
+                if (propertyA == null && propertyB == null) {
+                    return 0; // null == null required by Comparator contract
+                } if (propertyA == null) {
                     return sign * -1; // nulls at beggining
                 } else if (propertyB == null) {
                     return sign * 1; // nulls at beggining
