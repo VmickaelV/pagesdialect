@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:pages="http://www.thymeleaf.org/pagesdialect">
+    <head>
+        <title>Thymeleaf Pages Dialect Example</title>
+        <link rel="stylesheet" href="../../main.css" th:href="@{/main.css}" />
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h1>Thymeleaf Pages Dialect Example</h1>
+        <table>
+            <caption>Product list</caption>
+            <thead>
+                <tr>
+                    <th pages:sort="name">Product</th>
+                    <th pages:sort="category.name">Category</th>
+                    <th pages:sort="stock">Stock</th>
+                    <th pages:sort="price">Price</th>
+                    <th pages:sort="offerExpiration">Offer till</th>
+                </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+                <tr th:each="product : ${products}"
+                        pages:paginate="5"
+                        pages:excel="name, category.name, stock, price, offerExpiration"
+                        pages:pdf="name:name, category.name:category, stock:stock, formattedPrice:total, offerExpiration:offerExpiration">
+                    <td th:text="${product.name}">Chair</td>
+                    <td th:text="${product.category.name}">Apparels</td>
+                    <td th:text="${product.stock}">12</td>
+                    <td th:text="${product.formattedPrice}">150 €</td>
+                    <td th:text="${#dates.format(product.offerExpiration, 'dd-MM-yyyy')}">15-06-2012</td>
+                </tr>
+                <tr>
+                    <td>Table</td>
+                    <td>Apparels</td>
+                    <td>8</td>
+                    <td>500 €</td>
+                    <td>30-06-2012</td>
+                </tr>
+                <tr>
+                    <td>Wardrobe</td>
+                    <td>Apparels</td>
+                    <td>15</td>
+                    <td>650 €</td>
+                    <td>25-06-2012</td>
+                </tr>
+            </tbody>
+        </table>
+        <span th:remove="all" class="paginate-count">Showing 6 - 10 of 500 results</span>
+        <div th:remove="all" class="paginate">
+            <a href="#" class="paginate-first">First</a>
+            <a href="#" class="paginate-previous">Previous</a>
+            <span class="paginate-page">Page 2 of 100</span>
+            <a href="#" class="paginate-next">Next</a>
+            <a href="#" class="paginate-last">Last</a>
+        </div>
+        <div th:remove="all">
+            <a class="export-excel">Excel</a>
+            <a class="export-pdf">PDF</a>
+        </div>
+    </body>
+</html>

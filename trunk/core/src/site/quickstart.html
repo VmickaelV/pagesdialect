@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PagesDialect for Thymeleaf</title>
+        <link rel="stylesheet" href="main.css" />
+        <!-- Code snippets using https://gist.github.com/ -->
+    </head>
+    <body>
+        <h1>PagesDialect for Thymeleaf - Quick start</h1>
+        <h2>Configuration for Maven + Spring users</h2>
+        <ol>
+            <li>
+                <p>Add the dependency to your <b>pom.xml</b></p>
+                <script src="https://gist.github.com/3851882.js"></script>
+                <p>
+                    <b>Note</b> that 2.0.x versions are compatible with Thymeleaf 2.0.x versions, while
+                    2.1.x versions are compatible with Thymeleaf 2.1.x versions.
+                </p>
+            <li>
+                <p>Add PagesDialect to your Thymeleaf configuration within the Spring configuration file</p>
+                <script src="https://gist.github.com/2429001.js"></script>
+            </li>
+            <li>
+                <p>
+                    <b>[Optional]</b> If you don't use a Servlet <b>3.0+</b> capable container or you have the
+                    attribute <tt>metadata-complete="true"</tt> in your web-app element, add to your <b>web.xml</b>
+                </p>
+                <script src="https://gist.github.com/2759620.js"></script>
+            </li>
+            <li>
+                <p>
+                    <b>[Optional]</b> If you want to use a SNAPSHOT version and you haven't got it, add Sonatype Snapshot
+                    repository to your <b>pom.xml</b>
+                </p>
+                <script src="https://gist.github.com/2429094.js"></script>
+            </li>
+        </ol>
+        <p class="back">
+            <a href="index.html">Back</a>
+        </p>
+    </body>
+</html>
