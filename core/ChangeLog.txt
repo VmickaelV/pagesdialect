@@ -1,3 +1,7 @@
+2.1.2
+===========
+- Fixed issue: export after orderining truncated the results.
+
 2.1.1
 ===========
 - Fixed issue regarding table sorting.
