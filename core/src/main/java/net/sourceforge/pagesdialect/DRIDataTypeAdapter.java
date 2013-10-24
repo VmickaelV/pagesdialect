@@ -3,7 +3,6 @@ package net.sourceforge.pagesdialect;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
-import org.thymeleaf.context.IContext;
 
 public class DRIDataTypeAdapter<T> extends AbstractDataType<T, T> {
 

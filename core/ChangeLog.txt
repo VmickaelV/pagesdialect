@@ -1,10 +1,10 @@
-2.0.2
-===========
-- Fixed issue: export after orderining truncated the results.
-
-2.0.1
+2.1.1
 ===========
 - Fixed issue regarding table sorting.
+
+2.1.0
+===========
+- Version compatible with Thymeleaf 2.1.x.
 
 2.0.0
 ===========

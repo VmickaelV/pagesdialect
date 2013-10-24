@@ -1,19 +1,17 @@
 package net.sourceforge.pagesdialect;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.servlet.FilterRegistration;
+import javax.servlet.http.HttpServletRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.DOMSelector;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.dom.Text;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
 import org.thymeleaf.util.MessageResolutionUtils;
-
-import javax.servlet.FilterRegistration;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class ExportCommand {
 
@@ -54,7 +52,8 @@ public class ExportCommand {
     public void execute() {
         HttpServletRequest request = ((IWebContext) arguments.getContext()).getHttpServletRequest();
         // Get iteration list
-        Collection list = findOriginalList(request);
+        IterationListFinder iterationListFinder = new IterationListFinder(arguments, element);
+        Collection list = (Collection) iterationListFinder.getIterationObject();
         if (!list.isEmpty()) {
             if (this.format.equals(request.getParameter(exportParam))) {
                 // Store list information for filter
@@ -71,7 +70,7 @@ public class ExportCommand {
                         if (!keyExpression.startsWith("$")) {
                             keyExpression = "'" + keyExpression + "'"; // Simplify constant expressions
                         }
-                        String key = StandardExpressionProcessor.processExpression(arguments, keyExpression).toString();
+                        String key = PagesDialectUtil.expressionValue(arguments, keyExpression).toString();
                         String header = MessageResolutionUtils.resolveMessageForTemplate(arguments, key, null, false);
                         if (header == null) {
                             header = key;
@@ -104,21 +103,6 @@ public class ExportCommand {
         }
         // Housekeeping
         element.removeAttribute(attributeName);
-    }
-
-    /**
-     * Return export list. It can be the original iteration object or the sorted object set by SortAttrProcessor.
-     */
-    private Collection findOriginalList(HttpServletRequest request) {
-        Collection list;
-        if (request.getAttribute(IterationListPreparer.PAGED_LIST_HOLDER_ATTR) != null) {
-            RecoverablePagedListHolder recoverablePagedListHolder = (RecoverablePagedListHolder) request.getAttribute(IterationListPreparer.PAGED_LIST_HOLDER_ATTR);
-            list = recoverablePagedListHolder.getOriginalList();
-        } else {
-            IterationListFinder iterationListFinder = new IterationListFinder(arguments, element);
-            list = (Collection) iterationListFinder.getIterationObject();
-        }
-        return list;
     }
 
     /**

@@ -1,8 +1,6 @@
 package net.sourceforge.pagesdialect;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,10 +12,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
-import net.sf.dynamicreports.report.exception.DRException;
 
 /**
  * Servlet filter for pages:export processor.

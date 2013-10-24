@@ -8,8 +8,6 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;
-import org.thymeleaf.standard.expression.StandardExpressionProcessor;
-import org.thymeleaf.standard.processor.attr.StandardEachAttrProcessor;
 
 /**
  * Utility class to build a RecoverablePagedListHolder list from the iteration object.
