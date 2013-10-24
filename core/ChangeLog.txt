@@ -1,6 +1,10 @@
+2.1.1
+===========
+- Fixed issue regarding table sorting.
+
 2.1.0
 ===========
-- Version compatible with Thymleaf 2.1.x.
+- Version compatible with Thymeleaf 2.1.x.
 
 2.0.0
 ===========
