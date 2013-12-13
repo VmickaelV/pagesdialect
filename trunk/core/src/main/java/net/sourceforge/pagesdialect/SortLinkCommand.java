@@ -79,7 +79,9 @@ public class SortLinkCommand {
         String href = uri + "?" + query;
         // Insert new anchor between element and its content
         Element anchor = element.cloneElementNodeWithNewName(element, "a", false);
-        anchor.removeAttribute(attributeName);
+        for (String attr : anchor.getAttributeMap().keySet()) {
+            anchor.removeAttribute(attr);
+        }
         anchor.setAttribute("href", href);
         if (desc == null) {
             anchor.setAttribute("class", "sort-sortable");
@@ -87,9 +89,6 @@ public class SortLinkCommand {
             anchor.setAttribute("class", "sort-desc");
         } else {
             anchor.setAttribute("class", "sort-asc");
-        }
-        for (String attr : element.getAttributeMap().keySet()) {
-            element.removeAttribute(attr);
         }
         for (Node child : element.getChildren()) {
             element.removeChild(child);
