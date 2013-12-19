@@ -11,8 +11,6 @@ import org.thymeleaf.Configuration;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;
-import org.thymeleaf.spring3.dialect.SpringStandardDialect;
-import org.thymeleaf.standard.StandardDialect;
 import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
@@ -23,6 +21,9 @@ import org.thymeleaf.util.MessageResolutionUtils;
  */
 public class PagesDialectUtil {
 
+    private static final String SPRING_STANDARD_DIALECT_CLASSNAME = "SpringStandardDialect";
+    private static final String STANDARD_DIALECT_CLASSNAME = "StandardDialect";
+
     /**
      * Look up StandardDialect prefix, usually "th".
      */
@@ -30,7 +31,9 @@ public class PagesDialectUtil {
         Map<String, IDialect> dialectMap = arguments.getConfiguration().getDialects();
         for (Entry<String, IDialect> dialectEntry : dialectMap.entrySet()) {
             IDialect dialect = dialectEntry.getValue();
-            if (dialect instanceof SpringStandardDialect || dialect instanceof StandardDialect) {
+            String dialectName = dialect.getClass().getSimpleName();
+            if (dialectName.equals(SPRING_STANDARD_DIALECT_CLASSNAME) || 
+                dialectName.equals(STANDARD_DIALECT_CLASSNAME)) {
                 return dialectEntry.getKey();
             }
         }
