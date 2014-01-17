@@ -1,3 +1,7 @@
+2.1.5
+=====
+- Fixed issue regarding expression resolution changes in Thymeleaf 2.1
+
 2.1.4
 =====
 - Removed hardcoded dependency with thymeleaf-spring3 package

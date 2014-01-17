@@ -7,10 +7,10 @@ import org.thymeleaf.dom.Element;
 
 public class PaginateCommand {
 
-    private Arguments arguments;
-    private Element element;
-    private String attributeName;
-    private PagesDialect dialect;
+    private final Arguments arguments;
+    private final Element element;
+    private final String attributeName;
+    private final PagesDialect dialect;
 
     private int pageSize;
     private PagedListHolder pagedList;

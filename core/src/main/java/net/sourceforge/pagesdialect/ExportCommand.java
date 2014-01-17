@@ -67,10 +67,12 @@ public class ExportCommand {
                     if (part.contains(":")) {
                         fields.add(part.split(":")[0].trim());
                         String keyExpression = part.split(":")[1].trim();
-                        if (!keyExpression.startsWith("$")) {
-                            keyExpression = "'" + keyExpression + "'"; // Simplify constant expressions
+                        String key;
+                        if (keyExpression.startsWith("$")) {
+                            key = PagesDialectUtil.expressionValue(arguments, keyExpression).toString();
+                        } else {
+                            key = keyExpression;
                         }
-                        String key = PagesDialectUtil.expressionValue(arguments, keyExpression).toString();
                         String header = MessageResolutionUtils.resolveMessageForTemplate(arguments, key, null, false);
                         if (header == null) {
                             header = key;
