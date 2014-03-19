@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static net.sourceforge.pagesdialect.PagesDialectUtil.isExpression;
+
 public class ExportCommand {
 
     private Arguments arguments;
@@ -68,7 +70,7 @@ public class ExportCommand {
                         fields.add(part.split(":")[0].trim());
                         String keyExpression = part.split(":")[1].trim();
                         String key;
-                        if (keyExpression.startsWith("$")) {
+                        if (isExpression(keyExpression)) {
                             key = PagesDialectUtil.expressionValue(arguments, keyExpression).toString();
                         } else {
                             key = keyExpression;

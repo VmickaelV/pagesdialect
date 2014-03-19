@@ -1,11 +1,5 @@
 package net.sourceforge.pagesdialect;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.Configuration;
 import org.thymeleaf.dialect.IDialect;
@@ -15,6 +9,13 @@ import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.util.MessageResolutionUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Utility methods for PagesDialect.
@@ -181,9 +182,7 @@ public class PagesDialectUtil {
      * th:toggle="'myID'"
      */
     public static Object expressionValue(Arguments arguments, String expression) {
-        if (expression.startsWith("${") && expression.endsWith("}")
-                || expression.startsWith("@{") && expression.endsWith("}")
-                || expression.startsWith("#{") && expression.endsWith("}")) {
+        if (isExpression(expression)) {
             Configuration configuration = arguments.getConfiguration();
             IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
             IStandardExpression standardExpression = expressionParser.parseExpression(configuration, arguments, expression);
@@ -191,6 +190,12 @@ public class PagesDialectUtil {
         } else {
             return expression;
         }
+    }
+
+    public static boolean isExpression(String expression) {
+        return expression.startsWith("${") && expression.endsWith("}")
+                || expression.startsWith("@{") && expression.endsWith("}")
+                || expression.startsWith("#{") && expression.endsWith("}");
     }
 
     public static String templateMessage(Arguments arguments, String messageKey, String... params) {
