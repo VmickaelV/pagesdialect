@@ -1,3 +1,7 @@
+2.1.6
+=====
+- Fixed issue regarding expression evaluation
+
 2.1.5
 =====
 - Fixed issue regarding expression resolution changes in Thymeleaf 2.1
