@@ -1,5 +1,7 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.processors;
 
+import net.sourceforge.pagesdialect.PagesDialect;
+import net.sourceforge.pagesdialect.commands.PaginatedCommand;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.ProcessorResult;

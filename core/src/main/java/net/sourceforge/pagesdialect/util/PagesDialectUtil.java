@@ -1,5 +1,6 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
+import net.sourceforge.pagesdialect.PagesDialect;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.Configuration;
 import org.thymeleaf.dialect.IDialect;

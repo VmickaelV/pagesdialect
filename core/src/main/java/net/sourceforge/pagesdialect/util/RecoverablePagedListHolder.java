@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
 import java.util.List;
 import org.springframework.beans.support.PagedListHolder;

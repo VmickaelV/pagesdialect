@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
 import java.io.IOException;
 import java.io.OutputStream;

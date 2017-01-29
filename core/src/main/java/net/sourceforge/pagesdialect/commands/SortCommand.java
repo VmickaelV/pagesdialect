@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
 import java.text.Collator;
 import java.util.Collections;
@@ -6,6 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;
+import net.sourceforge.pagesdialect.util.IterationListPreparer;
+import net.sourceforge.pagesdialect.PagesDialect;
+import net.sourceforge.pagesdialect.util.PagesDialectUtil;
+import net.sourceforge.pagesdialect.util.TypeFormatter;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;

@@ -1,5 +1,7 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.processors;
 
+import net.sourceforge.pagesdialect.commands.ExportCommand;
+import net.sourceforge.pagesdialect.PagesDialect;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.IAttributeNameProcessorMatcher;

@@ -1,5 +1,9 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
+import net.sourceforge.pagesdialect.util.IterationListPreparer;
+import net.sourceforge.pagesdialect.util.NavigationBarRenderer;
+import net.sourceforge.pagesdialect.PagesDialect;
+import net.sourceforge.pagesdialect.util.PagesDialectUtil;
 import org.springframework.beans.support.PagedListHolder;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;

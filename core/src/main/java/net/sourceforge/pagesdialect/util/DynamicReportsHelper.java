@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import java.io.IOException;

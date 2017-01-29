@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
 import javax.servlet.http.HttpServletRequest;
 import net.sf.dynamicreports.report.definition.expression.DRIValueFormatter;

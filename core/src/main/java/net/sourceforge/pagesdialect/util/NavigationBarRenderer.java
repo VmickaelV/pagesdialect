@@ -1,7 +1,9 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
 
 import java.text.MessageFormat;
 import javax.servlet.http.HttpServletRequest;
+
+import net.sourceforge.pagesdialect.PagesDialect;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.thymeleaf.Arguments;

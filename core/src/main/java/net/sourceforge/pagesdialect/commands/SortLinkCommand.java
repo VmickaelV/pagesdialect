@@ -1,6 +1,8 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
 import javax.servlet.http.HttpServletRequest;
+
+import net.sourceforge.pagesdialect.PagesDialect;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;

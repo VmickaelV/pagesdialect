@@ -1,4 +1,6 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.util;
+
+import net.sourceforge.pagesdialect.commands.ExportPerformer;
 
 import java.io.IOException;
 import javax.servlet.DispatcherType;

@@ -1,5 +1,6 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
+import net.sourceforge.pagesdialect.util.PagesDialectUtil;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.exceptions.TemplateProcessingException;

@@ -1,4 +1,4 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
 import java.util.List;
 import java.util.Set;
@@ -8,6 +8,10 @@ import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
+import net.sourceforge.pagesdialect.util.DRIDataTypeAdapter;
+import net.sourceforge.pagesdialect.util.DynamicReportsHelper;
+import net.sourceforge.pagesdialect.util.PagesDialectUtil;
+import net.sourceforge.pagesdialect.util.TypeFormatter;
 
 /**
  * Performs the export to PDF and Excel files.

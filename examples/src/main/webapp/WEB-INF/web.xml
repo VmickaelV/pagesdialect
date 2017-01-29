@@ -13,7 +13,7 @@
     <!-- PagesDialect export filter -->
     <filter>
         <filter-name>exportFilter</filter-name>
-        <filter-class>net.sourceforge.pagesdialect.ExportFilter</filter-class>
+        <filter-class>net.sourceforge.pagesdialect.util.ExportFilter</filter-class>
         <init-param>
             <param-name>exportRequestParameterName</param-name>
             <param-value>export</param-value>

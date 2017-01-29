@@ -1,5 +1,11 @@
-package net.sourceforge.pagesdialect;
+package net.sourceforge.pagesdialect.commands;
 
+import net.sourceforge.pagesdialect.util.ExportFilter;
+import net.sourceforge.pagesdialect.util.IterationListFinder;
+import net.sourceforge.pagesdialect.util.IterationListPreparer;
+import net.sourceforge.pagesdialect.PagesDialect;
+import net.sourceforge.pagesdialect.util.PagesDialectUtil;
+import net.sourceforge.pagesdialect.util.RecoverablePagedListHolder;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.DOMSelector;
@@ -14,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static net.sourceforge.pagesdialect.PagesDialectUtil.isExpression;
+import static net.sourceforge.pagesdialect.util.PagesDialectUtil.isExpression;
 
 public class ExportCommand {
 
